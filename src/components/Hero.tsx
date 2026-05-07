@@ -309,7 +309,7 @@ function PhoneWithTelemetry() {
           </div>
           <p className="text-white/50 text-[10px] font-medium tracking-wider uppercase">Approved</p>
         </div>
-        <p className="text-white font-display text-2xl tracking-tight">₹50,000</p>
+        <p className="text-white font-display text-2xl tracking-tight">₹35,000</p>
         <p className="text-white/40 text-[10px] mt-0.5">pre-approved limit</p>
       </motion.div>
 

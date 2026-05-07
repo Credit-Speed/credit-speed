@@ -76,30 +76,6 @@ export default function Partner() {
           ))}
         </div>
 
-        {/* NBFC CTA strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7 }}
-          className="mt-14 glass-strong rounded-3xl p-8 sm:p-10 max-w-5xl mx-auto text-center relative overflow-hidden"
-        >
-          <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, rgba(212,168,83,0.15) 0%, transparent 60%)" }}
-          />
-          <h3 className="font-display text-white text-2xl sm:text-3xl tracking-tight mb-3 relative">
-            NBFC looking to expand in UP?
-          </h3>
-          <p className="text-white/45 text-sm mb-7 max-w-lg mx-auto relative">
-            We bring the retailer network, the platform, the ground presence. You bring the capital.
-          </p>
-          <a
-            href="/contact"
-            className="relative inline-block bg-white hover:bg-gold-200 text-navy-500 px-8 py-3 rounded-full font-semibold text-sm transition"
-          >
-            Discuss Partnership
-          </a>
-        </motion.div>
       </div>
     </section>
   );

@@ -105,14 +105,14 @@ export default function Navbar() {
               EN
             </button>
 
-            {/* Apply Now CTA — Apple-style frosted button */}
+            {/* Retailer Login CTA — Apple-style frosted button */}
             <Link
-              href="https://signup.oroboro.in/AgentOnboard/KycRegistration?params=v2Viq13yy4Y=&LoanType=AgentOnboard"
+              href="https://signup.oroboro.in/"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:inline-flex items-center gap-2 bg-white hover:bg-gold-100 text-navy-500 px-5 py-2 rounded-full text-[14px] font-semibold transition-all hover:scale-[1.03] active:scale-[0.97] shadow-[0_4px_14px_-2px_rgba(255,255,255,0.15)]"
             >
-              Apply Now
+              Retailer Login
             </Link>
 
             {/* Mobile toggle */}
@@ -155,13 +155,13 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
-              href="https://signup.oroboro.in/AgentOnboard/KycRegistration?params=v2Viq13yy4Y=&LoanType=AgentOnboard"
+              href="https://signup.oroboro.in/"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsOpen(false)}
               className="block bg-white text-navy-500 px-5 py-3 rounded-full text-[14px] font-semibold text-center mt-3"
             >
-              Apply Now
+              Retailer Login
             </Link>
           </motion.div>
         )}

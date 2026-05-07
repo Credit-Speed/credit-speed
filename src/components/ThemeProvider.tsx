@@ -12,9 +12,9 @@ interface ThemeContextValue {
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // Default "dark" — gets overridden by the no-flash script in layout.tsx
+  // Default "light" — gets overridden by the no-flash script in layout.tsx
   // and by the localStorage hydration effect below.
-  const [theme, setThemeState] = useState<Theme>("dark");
+  const [theme, setThemeState] = useState<Theme>("light");
 
   // On mount, read whatever the no-flash script set on <html>
   useEffect(() => {
@@ -48,7 +48,7 @@ export function useTheme() {
   if (!ctx) {
     // Fallback so components don't crash if used outside provider
     return {
-      theme: "dark" as Theme,
+      theme: "light" as Theme,
       setTheme: () => {},
       toggleTheme: () => {},
     };

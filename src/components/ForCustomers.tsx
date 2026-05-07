@@ -1,13 +1,35 @@
 "use client";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const emiPlans = [
-  { months: 3, rate: 0 },
-  { months: 6, rate: 2.5 },
-  { months: 8, rate: 3 },
-  { months: 10, rate: 3.5 },
-];
+// EMI formula tuned to match Credit Speed's backend pricing model:
+//   ProductValue 10,000 → DownPayment 2,142 / Processing 379 / Insurance 708
+//   LoanAmount = (Product − DownPayment) + Insurance = 8,566
+//   Monthly EMI (6 mo) ≈ ₹1,530  → ~1.2% flat per month
+//
+//   PayableAtStore = DownPayment + ProcessingFee
+//   Total          = (EMI × tenure) + PayableAtStore
+const DOWN_PAYMENT_RATE   = 0.2142;   // 21.42% of product value
+const INSURANCE_RATE      = 0.0708;   // Extended Warranty 6% + 18% GST = 7.08%
+const PROCESSING_FEE_RATE = 0.0379;   // 3.79% of product value
+const FLAT_RATE_PER_MONTH = 0.012;    // 1.2% flat per month
+
+const TENURES = [6, 8, 10] as const;
+
+function computeEMI(productValue: number, tenureMonths: number) {
+  const downPayment   = productValue * DOWN_PAYMENT_RATE;
+  const insurance     = productValue * INSURANCE_RATE;
+  const processingFee = productValue * PROCESSING_FEE_RATE;
+  const loanAmount    = productValue - downPayment + insurance;
+  const monthlyEMI    = (loanAmount * (1 + FLAT_RATE_PER_MONTH * tenureMonths)) / tenureMonths;
+  const payableAtStore = downPayment + processingFee;
+  const totalAmount   = monthlyEMI * tenureMonths + payableAtStore;
+  return {
+    monthlyEMI:     Math.round(monthlyEMI),
+    payableAtStore: Math.round(payableAtStore),
+    totalAmount:    Math.round(totalAmount),
+  };
+}
 
 const features = [
   {
@@ -34,12 +56,13 @@ const features = [
 
 export default function ForCustomers() {
   const [price, setPrice] = useState(12000);
-  const [selectedPlan, setSelectedPlan] = useState(1);
+  const [tenureIdx, setTenureIdx] = useState(0); // default 6 months
 
-  const plan = emiPlans[selectedPlan];
-  const totalInterest = (price * plan.rate * plan.months) / 100;
-  const totalAmount = price + totalInterest;
-  const emi = Math.round(totalAmount / plan.months);
+  const tenure = TENURES[tenureIdx];
+  const { monthlyEMI, payableAtStore, totalAmount } = useMemo(
+    () => computeEMI(price, tenure),
+    [price, tenure]
+  );
 
   return (
     <section id="customers" className="bg-[#050B17] py-24 lg:py-32 border-t border-white/5 relative overflow-hidden">
@@ -124,7 +147,7 @@ export default function ForCustomers() {
               <input
                 type="range"
                 min={5000}
-                max={50000}
+                max={35000}
                 step={500}
                 value={price}
                 onChange={(e) => setPrice(Number(e.target.value))}
@@ -132,7 +155,7 @@ export default function ForCustomers() {
               />
               <div className="flex justify-between text-white/30 text-[10px] mt-2 tracking-wider">
                 <span>&#8377;5K</span>
-                <span>&#8377;50K</span>
+                <span>&#8377;35K</span>
               </div>
             </div>
 
@@ -141,18 +164,18 @@ export default function ForCustomers() {
               <p className="text-white/50 text-xs font-medium tracking-wider uppercase mb-3">
                 Choose Tenure
               </p>
-              <div className="grid grid-cols-4 gap-2">
-                {emiPlans.map((p, i) => (
+              <div className="grid grid-cols-3 gap-2">
+                {TENURES.map((months, i) => (
                   <button
-                    key={p.months}
-                    onClick={() => setSelectedPlan(i)}
+                    key={months}
+                    onClick={() => setTenureIdx(i)}
                     className={`py-3 rounded-xl text-center transition-all ${
-                      selectedPlan === i
+                      tenureIdx === i
                         ? "bg-gold-400 text-navy-500 shadow-lg shadow-gold-400/20"
                         : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/5"
                     }`}
                   >
-                    <span className="block text-lg font-bold tabular-nums">{p.months}</span>
+                    <span className="block text-lg font-bold tabular-nums">{months}</span>
                     <span className="block text-[10px] tracking-wider">months</span>
                   </button>
                 ))}
@@ -165,14 +188,14 @@ export default function ForCustomers() {
                 <span className="text-white/50 text-xs tracking-wider uppercase">Monthly EMI</span>
                 <AnimatePresence mode="popLayout">
                   <motion.span
-                    key={emi}
+                    key={monthlyEMI}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.25 }}
                     className="font-display text-3xl text-gold-400 tabular-nums tracking-tight"
                   >
-                    &#8377;{emi.toLocaleString("en-IN")}
+                    &#8377;{monthlyEMI.toLocaleString("en-IN")}
                   </motion.span>
                 </AnimatePresence>
               </div>
@@ -182,12 +205,12 @@ export default function ForCustomers() {
                   <span className="tabular-nums">&#8377;{price.toLocaleString("en-IN")}</span>
                 </div>
                 <div className="flex justify-between text-white/40">
-                  <span>Interest ({plan.rate}% p.m.)</span>
-                  <span className="tabular-nums">&#8377;{Math.round(totalInterest).toLocaleString("en-IN")}</span>
+                  <span>Payable at Store</span>
+                  <span className="tabular-nums">&#8377;{payableAtStore.toLocaleString("en-IN")}</span>
                 </div>
                 <div className="border-t border-white/10 pt-2 mt-2 flex justify-between text-white font-semibold">
                   <span>Total Amount</span>
-                  <span className="tabular-nums">&#8377;{Math.round(totalAmount).toLocaleString("en-IN")}</span>
+                  <span className="tabular-nums">&#8377;{totalAmount.toLocaleString("en-IN")}</span>
                 </div>
               </div>
             </div>

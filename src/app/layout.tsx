@@ -9,16 +9,16 @@ export const metadata: Metadata = {
 };
 
 // No-flash theme script — runs BEFORE hydration so the page paints in the
-// correct theme on first frame. Falls back to system preference if no choice
-// has been saved.
+// correct theme on first frame. Defaults to LIGHT (only honors a stored
+// preference if the user has explicitly toggled).
 const themeInitScript = `
 (function() {
   try {
     var stored = localStorage.getItem('cs-theme');
-    var theme = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    var theme = stored || 'light';
     document.documentElement.setAttribute('data-theme', theme);
   } catch (e) {
-    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.setAttribute('data-theme', 'light');
   }
 })();
 `.trim();
