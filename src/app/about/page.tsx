@@ -1,6 +1,48 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import DirectorCard, { Director } from "@/components/DirectorCard";
+
+const directors: Director[] = [
+  {
+    name: "Ravindra Singh",
+    role: "Director",
+    engraving: "ai",
+    accent: "Credit Speed · Bharat",
+    taglines: [
+      "Founder of Moss Pilot — Generative AI optimisation studio",
+      "AI developer, product engineer, technology architect",
+      "Builds technology-driven brands and scalable AI systems",
+      "Cinematographer and horse-rider in his off-hours",
+    ],
+    email: "ravindrasingh252001@gmail.com",
+    linkedin: "https://www.linkedin.com/in/ravindra-singh-528838185/",
+  },
+  {
+    name: "Yashwant Sharma",
+    role: "Director",
+    engraving: "growth",
+    accent: "Credit Speed · Bharat",
+    taglines: [
+      "Sales and marketing strategist",
+      "Co-Founder of Moss Pilot",
+      "Director of Real Finserv Operations, Jaipur",
+      "Scales companies through smart leadership and operational excellence",
+    ],
+  },
+  {
+    name: "Prakash Mali",
+    role: "Director",
+    engraving: "retail",
+    accent: "Credit Speed · Bharat",
+    taglines: [
+      "Director of Credit Kuber Microfinance",
+      "Deep expertise in retail finance and merchant operations",
+      "Architect of Credit Speed's tier-2 / tier-3 expansion strategy",
+      "Built the partner network powering smartphone EMI in Bharat",
+    ],
+  },
+];
 
 const values = [
   { title: "Trust", description: "Transparent partnerships built on integrity." },
@@ -140,6 +182,38 @@ export default function AboutPage() {
                   <h3 className="font-display text-white text-xl tracking-tight mb-2">{v.title}</h3>
                   <p className="text-white/45 text-sm">{v.description}</p>
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Directors — Patrick Bateman metal cards */}
+        <section className="py-24 px-6 lg:px-12 border-t border-white/5 relative overflow-hidden">
+          {/* Ambient gold glow */}
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-20 pointer-events-none blur-3xl"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(212,168,83,0.18) 0%, transparent 60%)",
+            }}
+          />
+
+          <div className="max-w-[1400px] mx-auto relative">
+            <div className="text-center mb-14">
+              <p className="text-gold-400/80 text-xs font-medium tracking-[0.25em] uppercase mb-4">
+                Leadership
+              </p>
+              <h2 className="font-display text-white text-5xl sm:text-6xl tracking-tighter leading-[0.95]">
+                The board.
+              </h2>
+              <p className="text-white/55 mt-5 max-w-xl mx-auto text-[15px] leading-relaxed">
+                The directors steering Credit Speed. Click any card to see their work — front for the introduction, back for the full story.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              {directors.map((d) => (
+                <DirectorCard key={d.name} director={d} />
               ))}
             </div>
           </div>
