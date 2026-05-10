@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 
 // Contact details — single source of truth
 const CONTACT = {
-  email: "ravindrasingh258241@gmail.com",
+  email: "admin@creditspeed.in",
   phoneDisplay: "+91 88249 20949",
   phoneIntl: "+918824920949",
   whatsappNumber: "918824920949", // no '+' for wa.me URLs

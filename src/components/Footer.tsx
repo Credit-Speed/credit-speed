@@ -78,11 +78,11 @@ export default function Footer() {
 
             <h4 className="text-white/30 text-[10px] font-semibold tracking-[0.25em] uppercase mb-4">Reach Us</h4>
             <div className="space-y-2.5">
-              <a href="mailto:ravindrasingh258241@gmail.com" className="flex items-center gap-2 text-white/65 hover:text-gold-400 text-xs transition break-all">
+              <a href="mailto:admin@creditspeed.in" className="flex items-center gap-2 text-white/65 hover:text-gold-400 text-xs transition break-all">
                 <svg className="w-3.5 h-3.5 text-gold-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                ravindrasingh258241@gmail.com
+                admin@creditspeed.in
               </a>
               <a href="tel:+918824920949" className="flex items-center gap-2 text-white/65 hover:text-gold-400 text-xs transition">
                 <svg className="w-3.5 h-3.5 text-gold-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>

@@ -24,7 +24,7 @@ export default function PrivacyPage() {
         },
         {
           heading: "5. Your Rights",
-          body: "You have the right to access, correct, or delete your personal data. You can request this by contacting us at contact@creditspeed.in.",
+          body: "You have the right to access, correct, or delete your personal data. You can request this by contacting us at admin@creditspeed.in.",
         },
         {
           heading: "6. Cookies",
@@ -32,7 +32,7 @@ export default function PrivacyPage() {
         },
         {
           heading: "7. Contact Us",
-          body: "For any privacy-related questions, please reach out to us at contact@creditspeed.in or visit our office in Lucknow, Uttar Pradesh.",
+          body: "For any privacy-related questions, please reach out to us at admin@creditspeed.in or visit our office in Lucknow, Uttar Pradesh.",
         },
       ]}
     />
