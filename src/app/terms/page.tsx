@@ -44,7 +44,7 @@ export default function TermsPage() {
         },
         {
           heading: "10. Contact",
-          body: "For questions regarding these terms, reach us at contact@creditspeed.in.",
+          body: "For questions regarding these terms, reach us at admin@creditspeed.in.",
         },
       ]}
     />
