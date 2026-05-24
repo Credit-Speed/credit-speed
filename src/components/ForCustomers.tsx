@@ -1,33 +1,45 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // EMI formula tuned to match Credit Speed's backend pricing model:
-//   ProductValue 10,000 → DownPayment 2,142 / Processing 379 / Insurance 708
-//   LoanAmount = (Product − DownPayment) + Insurance = 8,566
-//   Monthly EMI (6 mo) ≈ ₹1,530  → ~1.2% flat per month
+//   ProductValue 10,000 → DownPayment 2,142 (min) / Processing 379 / Insurance 708
+//   LoanAmount = (Product − DownPayment) + Insurance
+//   Monthly EMI (6 mo, default DP) ≈ ₹1,530  → ~1.2% flat per month
 //
 //   PayableAtStore = DownPayment + ProcessingFee
 //   Total          = (EMI × tenure) + PayableAtStore
-const DOWN_PAYMENT_RATE   = 0.2142;   // 21.42% of product value
-const INSURANCE_RATE      = 0.0708;   // Extended Warranty 6% + 18% GST = 7.08%
-const PROCESSING_FEE_RATE = 0.0379;   // 3.79% of product value
-const FLAT_RATE_PER_MONTH = 0.012;    // 1.2% flat per month
+//
+// Users can choose to put MORE than the minimum down payment to reduce
+// their monthly EMI. Min is the company's required floor; max keeps
+// at least a small loan amount on the books.
+const MIN_DOWN_PAYMENT_RATE = 0.2142; // 21.42% — minimum company requires
+const MAX_DOWN_PAYMENT_RATE = 0.9;    // 90% — leave at least 10% to finance
+const INSURANCE_RATE        = 0.0708; // Extended Warranty 6% + 18% GST = 7.08%
+const PROCESSING_FEE_RATE   = 0.0379; // 3.79% of product value
+const FLAT_RATE_PER_MONTH   = 0.012;  // 1.2% flat per month
 
 const TENURES = [6, 8, 10] as const;
 
-function computeEMI(productValue: number, tenureMonths: number) {
-  const downPayment   = productValue * DOWN_PAYMENT_RATE;
+function computeEMI(
+  productValue: number,
+  tenureMonths: number,
+  downPayment: number
+) {
   const insurance     = productValue * INSURANCE_RATE;
   const processingFee = productValue * PROCESSING_FEE_RATE;
-  const loanAmount    = productValue - downPayment + insurance;
-  const monthlyEMI    = (loanAmount * (1 + FLAT_RATE_PER_MONTH * tenureMonths)) / tenureMonths;
+  const loanAmount    = Math.max(productValue - downPayment + insurance, 0);
+  const monthlyEMI    = loanAmount > 0
+    ? (loanAmount * (1 + FLAT_RATE_PER_MONTH * tenureMonths)) / tenureMonths
+    : 0;
   const payableAtStore = downPayment + processingFee;
   const totalAmount   = monthlyEMI * tenureMonths + payableAtStore;
   return {
     monthlyEMI:     Math.round(monthlyEMI),
     payableAtStore: Math.round(payableAtStore),
     totalAmount:    Math.round(totalAmount),
+    insurance:      Math.round(insurance),
+    loanAmount:     Math.round(loanAmount),
   };
 }
 
@@ -57,11 +69,28 @@ const features = [
 export default function ForCustomers() {
   const [price, setPrice] = useState(12000);
   const [tenureIdx, setTenureIdx] = useState(0); // default 6 months
+  const [downPayment, setDownPayment] = useState(
+    Math.round(12000 * MIN_DOWN_PAYMENT_RATE)
+  );
 
   const tenure = TENURES[tenureIdx];
+
+  // Bounds for the down payment slider/input — recalc when price changes
+  const minDP = useMemo(() => Math.round(price * MIN_DOWN_PAYMENT_RATE), [price]);
+  const maxDP = useMemo(() => Math.round(price * MAX_DOWN_PAYMENT_RATE), [price]);
+
+  // If user changes the phone price and their previous down payment is now
+  // out of range, clamp it. Keeps the calculator always valid.
+  useEffect(() => {
+    if (downPayment < minDP) setDownPayment(minDP);
+    else if (downPayment > maxDP) setDownPayment(maxDP);
+    // intentionally omitting downPayment from deps — only react to price bounds
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [minDP, maxDP]);
+
   const { monthlyEMI, payableAtStore, totalAmount } = useMemo(
-    () => computeEMI(price, tenure),
-    [price, tenure]
+    () => computeEMI(price, tenure, downPayment),
+    [price, tenure, downPayment]
   );
 
   return (
@@ -188,6 +217,62 @@ export default function ForCustomers() {
                 <span>&#8377;5K</span>
                 <span className="text-white/40 italic">tap the number to type any amount</span>
                 <span>&#8377;35K</span>
+              </div>
+            </div>
+
+            {/* Down Payment — editable number + slider */}
+            <div className="mb-7">
+              <div className="flex justify-between items-center mb-3">
+                <label
+                  htmlFor="emi-down-payment"
+                  className="text-white/50 text-xs font-medium tracking-wider uppercase"
+                >
+                  Down Payment
+                </label>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-white font-display text-2xl tracking-tight">
+                    &#8377;
+                  </span>
+                  <input
+                    id="emi-down-payment"
+                    type="number"
+                    inputMode="numeric"
+                    min={minDP}
+                    max={maxDP}
+                    step={1}
+                    value={downPayment}
+                    onChange={(e) => {
+                      const raw = e.target.value;
+                      if (raw === "") {
+                        setDownPayment(0);
+                        return;
+                      }
+                      const val = Number(raw);
+                      if (!Number.isNaN(val)) setDownPayment(val);
+                    }}
+                    onBlur={(e) => {
+                      const val = Number(e.target.value);
+                      if (Number.isNaN(val) || val < minDP) setDownPayment(minDP);
+                      else if (val > maxDP) setDownPayment(maxDP);
+                    }}
+                    aria-label="Down payment in rupees"
+                    className="font-display text-2xl tracking-tight tabular-nums bg-transparent text-white w-28 text-right focus:outline-none border-b border-transparent focus:border-gold-400/50 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+              </div>
+              <input
+                type="range"
+                min={minDP}
+                max={maxDP}
+                step={100}
+                value={Math.min(Math.max(downPayment, minDP), maxDP)}
+                onChange={(e) => setDownPayment(Number(e.target.value))}
+                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-gold-400"
+              />
+              <div className="flex justify-between text-white/30 text-[10px] mt-2 tracking-wider">
+                <span>Min &#8377;{minDP.toLocaleString("en-IN")}</span>
+                <span className="text-white/40 italic">pay more upfront, lower your EMI</span>
+                <span>Max &#8377;{maxDP.toLocaleString("en-IN")}</span>
               </div>
             </div>
 
