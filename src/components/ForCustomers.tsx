@@ -134,27 +134,59 @@ export default function ForCustomers() {
               See how affordable your next phone can be
             </p>
 
-            {/* Price slider */}
+            {/* Price — editable number + slider */}
             <div className="mb-7">
               <div className="flex justify-between items-center mb-3">
-                <label className="text-white/50 text-xs font-medium tracking-wider uppercase">
+                <label
+                  htmlFor="emi-phone-price"
+                  className="text-white/50 text-xs font-medium tracking-wider uppercase"
+                >
                   Phone Price
                 </label>
-                <span className="text-white font-display text-2xl tracking-tight tabular-nums">
-                  &#8377;{price.toLocaleString("en-IN")}
-                </span>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-white font-display text-2xl tracking-tight">
+                    &#8377;
+                  </span>
+                  <input
+                    id="emi-phone-price"
+                    type="number"
+                    inputMode="numeric"
+                    min={5000}
+                    max={35000}
+                    step={1}
+                    value={price}
+                    onChange={(e) => {
+                      const raw = e.target.value;
+                      // allow empty string while typing
+                      if (raw === "") {
+                        setPrice(0);
+                        return;
+                      }
+                      const val = Number(raw);
+                      if (!Number.isNaN(val)) setPrice(val);
+                    }}
+                    onBlur={(e) => {
+                      const val = Number(e.target.value);
+                      if (Number.isNaN(val) || val < 5000) setPrice(5000);
+                      else if (val > 35000) setPrice(35000);
+                    }}
+                    aria-label="Phone price in rupees"
+                    className="font-display text-2xl tracking-tight tabular-nums bg-transparent text-white w-28 text-right focus:outline-none border-b border-transparent focus:border-gold-400/50 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
               </div>
               <input
                 type="range"
                 min={5000}
                 max={35000}
-                step={500}
-                value={price}
+                step={100}
+                value={Math.min(Math.max(price, 5000), 35000)}
                 onChange={(e) => setPrice(Number(e.target.value))}
                 className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-gold-400"
               />
               <div className="flex justify-between text-white/30 text-[10px] mt-2 tracking-wider">
                 <span>&#8377;5K</span>
+                <span className="text-white/40 italic">tap the number to type any amount</span>
                 <span>&#8377;35K</span>
               </div>
             </div>
