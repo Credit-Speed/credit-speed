@@ -2,22 +2,26 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// EMI formula tuned to match Credit Speed's backend pricing model:
-//   ProductValue 10,000 → DownPayment 2,142 (min) / Processing 379 / Insurance 708
-//   LoanAmount = (Product − DownPayment) + Insurance
-//   Monthly EMI (6 mo, default DP) ≈ ₹1,530  → ~1.2% flat per month
+// EMI formula calibrated to TFL's live disbursement model (verified
+// against an actual Delivery Order: Product 19,273 → DP 3,855 (20%),
+// Proc 682 (3.54%), Loan 15,418, EMI 2,753 @ 6 months).
 //
+// Important: Insurance and Dealer-Borne Discount (DBD) are absorbed
+// by the merchant out of their TFL disbursement — they DO NOT enter
+// the customer's loan or EMI. Customer-facing flow is just:
+//
+//   LoanAmount     = ProductPrice − DownPayment
+//   MonthlyEMI     = LoanAmount × (1 + 1.2% × tenure) / tenure
 //   PayableAtStore = DownPayment + ProcessingFee
 //   Total          = (EMI × tenure) + PayableAtStore
 //
 // Users can choose to put MORE than the minimum down payment to reduce
 // their monthly EMI. Min is the company's required floor; max keeps
 // at least a small loan amount on the books.
-const MIN_DOWN_PAYMENT_RATE = 0.2142; // 21.42% — minimum company requires
-const MAX_DOWN_PAYMENT_RATE = 0.9;    // 90% — leave at least 10% to finance
-const INSURANCE_RATE        = 0.0708; // Extended Warranty 6% + 18% GST = 7.08%
-const PROCESSING_FEE_RATE   = 0.0379; // 3.79% of product value
-const FLAT_RATE_PER_MONTH   = 0.012;  // 1.2% flat per month
+const MIN_DOWN_PAYMENT_RATE = 0.20;        // 20% — TFL's required minimum
+const MAX_DOWN_PAYMENT_RATE = 0.9;         // 90% — leave at least 10% to finance
+const PROCESSING_FEE_RATE   = 0.03 * 1.18; // 3% + 18% GST = 3.54% of product value
+const FLAT_RATE_PER_MONTH   = 0.012;       // 1.2% flat per month
 
 const TENURES = [6, 8, 10] as const;
 
@@ -26,9 +30,8 @@ function computeEMI(
   tenureMonths: number,
   downPayment: number
 ) {
-  const insurance     = productValue * INSURANCE_RATE;
   const processingFee = productValue * PROCESSING_FEE_RATE;
-  const loanAmount    = Math.max(productValue - downPayment + insurance, 0);
+  const loanAmount    = Math.max(productValue - downPayment, 0);
   const monthlyEMI    = loanAmount > 0
     ? (loanAmount * (1 + FLAT_RATE_PER_MONTH * tenureMonths)) / tenureMonths
     : 0;
@@ -38,7 +41,6 @@ function computeEMI(
     monthlyEMI:     Math.round(monthlyEMI),
     payableAtStore: Math.round(payableAtStore),
     totalAmount:    Math.round(totalAmount),
-    insurance:      Math.round(insurance),
     loanAmount:     Math.round(loanAmount),
   };
 }
