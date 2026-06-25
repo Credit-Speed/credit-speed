@@ -80,7 +80,7 @@ export default function Hero() {
             <motion.div variants={item} className="mt-10 flex items-center gap-4">
               {/* Start Now pill with thumbnail-style icon */}
               <Link
-                href="https://signup.oroboro.in/AgentOnboard/KycRegistration?params=v2Viq13yy4Y=&LoanType=AgentOnboard"
+                href="https://signup.oroboro.in/AgentOnboard/KycRegistration?params=OSgZ0NA5ls0=&LoanType=AgentOnboard"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-3 bg-white pl-1.5 pr-7 py-1.5 rounded-full hover:bg-gold-200 transition-all"
