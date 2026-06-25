@@ -142,7 +142,7 @@ export default function PartnerPage() {
               Apply Now
             </a>
             <a
-              href="https://signup.oroboro.in/AgentOnboard/KycRegistration?params=v2Viq13yy4Y=&LoanType=AgentOnboard"
+              href="https://signup.oroboro.in/AgentOnboard/KycRegistration?params=OSgZ0NA5ls0=&LoanType=AgentOnboard"
               target="_blank"
               rel="noopener noreferrer"
               className="glass text-white hover:border-gold-400/30 px-8 py-3 rounded-full font-semibold text-sm transition"

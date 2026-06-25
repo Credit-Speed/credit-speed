@@ -107,7 +107,7 @@ export default function Navbar() {
 
             {/* Retailer Login CTA — Apple-style frosted button */}
             <Link
-              href="https://signup.oroboro.in/"
+              href="https://signup.oroboro.in/AgentOnboard/KycRegistration?params=OSgZ0NA5ls0=&LoanType=AgentOnboard"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:inline-flex items-center gap-2 bg-white hover:bg-gold-100 text-navy-500 px-5 py-2 rounded-full text-[14px] font-semibold transition-all hover:scale-[1.03] active:scale-[0.97] shadow-[0_4px_14px_-2px_rgba(255,255,255,0.15)]"
@@ -155,7 +155,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
-              href="https://signup.oroboro.in/"
+              href="https://signup.oroboro.in/AgentOnboard/KycRegistration?params=OSgZ0NA5ls0=&LoanType=AgentOnboard"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsOpen(false)}
