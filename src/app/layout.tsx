@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import ChatWidget from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
   title: "Credit Speed — Smartphone EMI Solutions for Bharat",
@@ -35,6 +36,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased grain">
         <ThemeProvider>{children}</ThemeProvider>
+        <ChatWidget />
       </body>
     </html>
   );
