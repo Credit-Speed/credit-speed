@@ -1,59 +1,50 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import {
-  CUSTOMER_FAQS,
-  RETAILER_FAQS,
-  HELPLINE,
-  HELPLINE_WA,
-  type Faq,
-} from "@/lib/chat-knowledge";
+import { motion, AnimatePresence } from "framer-motion";
+import { HELPLINE, HELPLINE_WA } from "@/lib/chat-knowledge";
 
-type Branch = "customer" | "retailer";
 type Msg = { role: "user" | "assistant"; content: string };
 
-const NAVY = "#0A1628";
-const GOLD = "#C39236";
+const STARTERS = [
+  "How does the EMI work?",
+  "What documents do I need?",
+  "I want to partner my shop",
+  "Talk to a person",
+];
+
+const GREETING =
+  "Namaste! 🙏 I'm the Credit Speed assistant. I can help you get a smartphone on EMI, or partner your shop with us. What would you like to know?";
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
-  const [branch, setBranch] = useState<Branch | null>(null);
-  const [msgs, setMsgs] = useState<Msg[]>([]);
+  const [msgs, setMsgs] = useState<Msg[]>([{ role: "assistant", content: GREETING }]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [retailer, setRetailer] = useState(false); // inferred lead_type
   const [leadOpen, setLeadOpen] = useState(false);
   const [lead, setLead] = useState({ name: "", phone: "", city: "", shop_name: "", consent: false });
-  const [leadState, setLeadState] = useState<"idle" | "saving" | "done" | "error">("idle");
+  const [leadState, setLeadState] = useState<"idle" | "saving" | "done">("idle");
   const [leadErr, setLeadErr] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
-  }, [msgs, leadOpen, sending]);
+  }, [msgs, sending, leadOpen, leadState]);
 
-  const faqs: Faq[] = branch === "retailer" ? RETAILER_FAQS : CUSTOMER_FAQS;
+  const inferRetailer = (t: string) => /partner|shop|retail|dukan|store|merchant|दुकान/i.test(t);
 
-  const pickBranch = (b: Branch) => {
-    setBranch(b);
-    setMsgs([
-      {
-        role: "assistant",
-        content:
-          b === "retailer"
-            ? "Great! I can tell you how partnering with Credit Speed works. Tap a question, ask me anything, or leave your details for a callback."
-            : "Sure! I can explain how smartphone EMI works. Tap a question, ask me anything, or estimate your EMI.",
-      },
-    ]);
-  };
-
-  const askFaq = (f: Faq) => {
-    setMsgs((m) => [...m, { role: "user", content: f.q }, { role: "assistant", content: f.a }]);
-  };
-
-  const send = async () => {
-    const text = input.trim();
-    if (!text || sending) return;
-    const next: Msg[] = [...msgs, { role: "user", content: text }];
+  const sendText = async (text: string) => {
+    const clean = text.trim();
+    if (!clean || sending) return;
+    if (inferRetailer(clean)) setRetailer(true);
+    if (/talk to a person|callback|call me|agent|human/i.test(clean)) {
+      setMsgs((m) => [...m, { role: "user", content: clean }, { role: "assistant", content: "Of course — leave your details and our team will call you. Or reach us directly on " + HELPLINE + "." }]);
+      setLeadOpen(true);
+      setInput("");
+      return;
+    }
+    const next: Msg[] = [...msgs, { role: "user", content: clean }];
     setMsgs(next);
     setInput("");
     setSending(true);
@@ -66,10 +57,7 @@ export default function ChatWidget() {
       const j = await r.json();
       setMsgs((m) => [...m, { role: "assistant", content: j.reply || "Please try again." }]);
     } catch {
-      setMsgs((m) => [
-        ...m,
-        { role: "assistant", content: `Network issue — please call/WhatsApp us at ${HELPLINE}.` },
-      ]);
+      setMsgs((m) => [...m, { role: "assistant", content: `Network issue — please call/WhatsApp us at ${HELPLINE}.` }]);
     } finally {
       setSending(false);
     }
@@ -84,145 +72,159 @@ export default function ChatWidget() {
       const r = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...lead, lead_type: branch || "customer", intent: msgs.slice(-1)[0]?.content || "" }),
+        body: JSON.stringify({ ...lead, lead_type: retailer ? "retailer" : "customer", intent: msgs.slice(-2).map((m) => m.content).join(" | ") }),
       });
       const j = await r.json();
-      if (!r.ok || !j.ok) { setLeadErr(j.error || "Could not save. Try again."); setLeadState("error"); return; }
+      if (!r.ok || !j.ok) { setLeadErr(j.error || "Could not save. Try again."); setLeadState("idle"); return; }
       setLeadState("done");
+      setLeadOpen(false);
+      setMsgs((m) => [...m, { role: "assistant", content: "Thank you! ✅ Our team will call you shortly." }]);
     } catch {
-      setLeadErr("Network error. Try again."); setLeadState("error");
+      setLeadErr("Network error. Try again."); setLeadState("idle");
     }
   };
-
-  const isRetailer = branch === "retailer";
 
   return (
     <>
       {/* Launcher */}
-      {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          aria-label="Open Credit Speed Assistant"
-          style={{ background: NAVY }}
-          className="fixed bottom-5 right-5 z-[60] h-14 w-14 rounded-full shadow-xl flex items-center justify-center text-white hover:scale-105 transition-transform"
-        >
-          <span style={{ position: "absolute", inset: 0, borderRadius: 9999, boxShadow: `0 0 0 2px ${GOLD}55` }} />
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </button>
-      )}
+      <AnimatePresence>
+        {!open && (
+          <motion.button
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            whileHover={{ scale: 1.06 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setOpen(true)}
+            aria-label="Open Credit Speed Assistant"
+            className="fixed bottom-5 right-5 z-[60] h-14 w-14 rounded-full flex items-center justify-center"
+            style={{ background: "linear-gradient(150deg,#13233d,#0A1628)", boxShadow: "0 10px 30px rgba(0,0,0,.35), 0 0 0 1px rgba(212,168,83,.35), 0 0 24px rgba(212,168,83,.25)" }}
+          >
+            <span className="absolute inset-0 rounded-full animate-ping" style={{ boxShadow: "0 0 0 2px rgba(212,168,83,.35)", animationDuration: "2.4s" }} />
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4A853" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Panel */}
-      {open && (
-        <div className="fixed bottom-5 right-5 z-[60] w-[92vw] max-w-[380px] h-[70vh] max-h-[560px] rounded-2xl bg-white shadow-2xl border border-black/10 flex flex-col overflow-hidden">
-          {/* Header */}
-          <div style={{ background: NAVY }} className="px-4 py-3 flex items-center justify-between text-white">
-            <div>
-              <p className="text-[14px] font-semibold leading-tight">Credit Speed Assistant</p>
-              <p className="text-[11px] text-white/60">EMI help & partner support</p>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 24, scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 320, damping: 30 }}
+            className="fixed bottom-5 right-5 z-[60] w-[92vw] max-w-[392px] h-[72vh] max-h-[600px] rounded-3xl flex flex-col overflow-hidden"
+            style={{ background: "linear-gradient(165deg,#0c1a30,#050b17 70%)", border: "1px solid rgba(212,168,83,.20)", boxShadow: "0 30px 70px rgba(0,0,0,.55), 0 0 40px rgba(212,168,83,.08)", backdropFilter: "blur(12px)" }}
+          >
+            {/* Header */}
+            <div className="px-4 py-3.5 flex items-center gap-3 border-b border-white/[0.06]">
+              <div className="h-9 w-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "linear-gradient(135deg,#D4A853,#C39236)" }}>
+                <span className="text-[15px] font-bold" style={{ color: "#0A1628", fontFamily: "var(--font-sora,inherit)" }}>C</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[14px] font-semibold text-white leading-tight">Credit Speed Assistant</p>
+                <p className="text-[11px] flex items-center gap-1.5" style={{ color: "#9fb0c9" }}>
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 inline-block" /> Online · replies instantly
+                </p>
+              </div>
+              <button onClick={() => setOpen(false)} aria-label="Close" className="text-white/45 hover:text-white text-2xl leading-none px-1">×</button>
             </div>
-            <button onClick={() => setOpen(false)} aria-label="Close" className="text-white/70 hover:text-white text-xl leading-none">×</button>
-          </div>
 
-          {/* Body */}
-          <div ref={scrollRef} className="flex-1 overflow-y-auto p-3 space-y-2 bg-[#f7f8fa]">
-            {!branch ? (
-              <div className="space-y-3">
-                <Bubble>Namaste! 🙏 I'm the Credit Speed Assistant. Are you a customer or a shop owner?</Bubble>
-                <div className="flex gap-2">
-                  <button onClick={() => pickBranch("customer")} className="flex-1 rounded-xl border border-black/10 bg-white py-2.5 text-[13px] font-medium hover:border-black/30" style={{ color: NAVY }}>🧑 I'm a Customer</button>
-                  <button onClick={() => pickBranch("retailer")} className="flex-1 rounded-xl border border-black/10 bg-white py-2.5 text-[13px] font-medium hover:border-black/30" style={{ color: NAVY }}>🏪 I'm a Shop owner</button>
-                </div>
-              </div>
-            ) : (
-              <>
-                {msgs.map((m, i) =>
-                  m.role === "assistant" ? (
-                    <Bubble key={i}>{m.content}</Bubble>
-                  ) : (
-                    <div key={i} className="flex justify-end">
-                      <div style={{ background: NAVY }} className="max-w-[80%] rounded-2xl rounded-br-sm px-3 py-2 text-[13px] text-white">{m.content}</div>
-                    </div>
-                  )
-                )}
-                {sending && <Bubble>…</Bubble>}
-
-                {leadOpen && leadState !== "done" && (
-                  <div className="rounded-xl border border-black/10 bg-white p-3 space-y-2">
-                    <p className="text-[12px] font-semibold" style={{ color: NAVY }}>
-                      {isRetailer ? "Become a partner" : "Get a callback"}
-                    </p>
-                    <input value={lead.name} onChange={(e) => setLead({ ...lead, name: e.target.value })} placeholder="Your name" className="w-full rounded-lg border border-black/15 px-3 py-2 text-[13px]" />
-                    <input value={lead.phone} onChange={(e) => setLead({ ...lead, phone: e.target.value })} placeholder="Phone (10 digits)" inputMode="numeric" className="w-full rounded-lg border border-black/15 px-3 py-2 text-[13px]" />
-                    <input value={lead.city} onChange={(e) => setLead({ ...lead, city: e.target.value })} placeholder="City" className="w-full rounded-lg border border-black/15 px-3 py-2 text-[13px]" />
-                    {isRetailer && (
-                      <input value={lead.shop_name} onChange={(e) => setLead({ ...lead, shop_name: e.target.value })} placeholder="Shop name" className="w-full rounded-lg border border-black/15 px-3 py-2 text-[13px]" />
-                    )}
-                    <label className="flex items-start gap-2 text-[11px] text-black/60">
-                      <input type="checkbox" checked={lead.consent} onChange={(e) => setLead({ ...lead, consent: e.target.checked })} className="mt-0.5" />
-                      I agree to be contacted by Credit Speed about this enquiry.
-                    </label>
-                    {leadErr && <p className="text-[11px] text-red-600">{leadErr}</p>}
-                    <button onClick={submitLead} disabled={leadState === "saving"} style={{ background: GOLD }} className="w-full rounded-lg py-2 text-[13px] font-semibold text-white disabled:opacity-60">
-                      {leadState === "saving" ? "Saving…" : "Submit"}
-                    </button>
+            {/* Messages */}
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-3.5 py-4 space-y-2.5">
+              {msgs.map((m, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>
+                  <div
+                    className="max-w-[84%] px-3.5 py-2.5 text-[13.5px] leading-relaxed whitespace-pre-wrap"
+                    style={
+                      m.role === "user"
+                        ? { background: "linear-gradient(135deg,#D4A853,#C39236)", color: "#0A1628", borderRadius: "16px 16px 4px 16px", fontWeight: 500 }
+                        : { background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.08)", color: "rgba(255,255,255,.88)", borderRadius: "16px 16px 16px 4px" }
+                    }
+                  >
+                    {m.content}
                   </div>
-                )}
-                {leadState === "done" && (
-                  <Bubble>Thank you! ✅ Our team will call you shortly. You can also reach us on {HELPLINE}.</Bubble>
-                )}
-              </>
-            )}
-          </div>
+                </motion.div>
+              ))}
+              {sending && (
+                <div className="flex justify-start">
+                  <div className="px-4 py-3 rounded-2xl rounded-bl-sm" style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.08)" }}>
+                    <span className="flex gap-1">
+                      {[0, 1, 2].map((d) => (
+                        <motion.span key={d} className="h-1.5 w-1.5 rounded-full" style={{ background: "#D4A853" }} animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1, repeat: Infinity, delay: d * 0.2 }} />
+                      ))}
+                    </span>
+                  </div>
+                </div>
+              )}
 
-          {/* Quick replies + CTAs + input */}
-          {branch && (
-            <div className="border-t border-black/10 bg-white">
-              <div className="px-3 pt-2 flex gap-1.5 overflow-x-auto no-scrollbar">
-                {faqs.map((f) => (
-                  <button key={f.q} onClick={() => askFaq(f)} className="whitespace-nowrap rounded-full border border-black/10 px-3 py-1 text-[11px] text-black/70 hover:border-black/30">
-                    {f.q}
+              {/* Lead form */}
+              {leadOpen && (
+                <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl p-3.5 space-y-2" style={{ background: "rgba(255,255,255,.04)", border: "1px solid rgba(212,168,83,.2)" }}>
+                  <p className="text-[12px] font-semibold" style={{ color: "#D4A853" }}>{retailer ? "Partner your shop — request a callback" : "Request a callback"}</p>
+                  {(["name", "phone", "city"] as const).map((k) => (
+                    <input key={k} value={lead[k]} onChange={(e) => setLead({ ...lead, [k]: e.target.value })}
+                      placeholder={k === "phone" ? "Phone (10 digits)" : k[0].toUpperCase() + k.slice(1)}
+                      inputMode={k === "phone" ? "numeric" : "text"}
+                      className="w-full rounded-lg px-3 py-2 text-[13px] text-white outline-none placeholder:text-white/35"
+                      style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)" }} />
+                  ))}
+                  {retailer && (
+                    <input value={lead.shop_name} onChange={(e) => setLead({ ...lead, shop_name: e.target.value })} placeholder="Shop name"
+                      className="w-full rounded-lg px-3 py-2 text-[13px] text-white outline-none placeholder:text-white/35" style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)" }} />
+                  )}
+                  <label className="flex items-start gap-2 text-[11px] text-white/55">
+                    <input type="checkbox" checked={lead.consent} onChange={(e) => setLead({ ...lead, consent: e.target.checked })} className="mt-0.5 accent-[#D4A853]" />
+                    I agree to be contacted by Credit Speed about this enquiry.
+                  </label>
+                  {leadErr && <p className="text-[11px] text-red-400">{leadErr}</p>}
+                  <button onClick={submitLead} disabled={leadState === "saving"} className="w-full rounded-lg py-2 text-[13px] font-semibold disabled:opacity-60" style={{ background: "linear-gradient(135deg,#D4A853,#C39236)", color: "#0A1628" }}>
+                    {leadState === "saving" ? "Saving…" : "Submit"}
                   </button>
-                ))}
+                </motion.div>
+              )}
+
+              {/* Starter chips — only at the very start */}
+              {msgs.length === 1 && !leadOpen && (
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {STARTERS.map((s) => (
+                    <button key={s} onClick={() => sendText(s)} className="rounded-full px-3 py-1.5 text-[12px] transition-colors"
+                      style={{ border: "1px solid rgba(212,168,83,.3)", color: "rgba(212,168,83,.95)" }}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Footer: quick actions + input */}
+            <div className="border-t border-white/[0.06] px-3 pt-2 pb-2.5">
+              <div className="flex gap-1.5 mb-2 text-[11px]">
+                <a href="/" className="rounded-full px-2.5 py-1" style={{ background: "rgba(255,255,255,.05)", color: "#cdd8e8" }}>📱 Estimate EMI</a>
+                <a href={`https://wa.me/${HELPLINE_WA}`} target="_blank" rel="noopener noreferrer" className="rounded-full px-2.5 py-1" style={{ background: "rgba(16,185,129,.14)", color: "#5eead4" }}>WhatsApp</a>
+                <a href={`tel:+${HELPLINE_WA}`} className="rounded-full px-2.5 py-1" style={{ background: "rgba(255,255,255,.05)", color: "#cdd8e8" }}>Call</a>
               </div>
-              <div className="px-3 py-2 flex flex-wrap gap-1.5 text-[11px]">
-                {!isRetailer && (
-                  <a href="/" style={{ color: NAVY }} className="rounded-full bg-black/5 px-3 py-1 font-medium">📱 Estimate EMI</a>
-                )}
-                <button onClick={() => setLeadOpen(true)} style={{ color: NAVY }} className="rounded-full bg-black/5 px-3 py-1 font-medium">
-                  {isRetailer ? "🤝 Become a partner" : "📞 Get a callback"}
-                </button>
-                <a href={`https://wa.me/${HELPLINE_WA}`} target="_blank" rel="noopener noreferrer" className="rounded-full bg-emerald-50 text-emerald-700 px-3 py-1 font-medium">WhatsApp</a>
-                <a href={`tel:+${HELPLINE_WA}`} style={{ color: NAVY }} className="rounded-full bg-black/5 px-3 py-1 font-medium">Call</a>
-              </div>
-              <div className="px-2 pb-2 flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && send()}
-                  placeholder="Type your question…"
-                  className="flex-1 rounded-full border border-black/15 px-3 py-2 text-[13px] outline-none"
+                  onKeyDown={(e) => e.key === "Enter" && sendText(input)}
+                  placeholder="Type your message…"
+                  className="flex-1 rounded-full px-4 py-2.5 text-[13.5px] text-white outline-none placeholder:text-white/35"
+                  style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)" }}
                 />
-                <button onClick={send} disabled={sending || !input.trim()} style={{ background: NAVY }} className="h-9 w-9 rounded-full text-white flex items-center justify-center disabled:opacity-50">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                <button onClick={() => sendText(input)} disabled={sending || !input.trim()} aria-label="Send" className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 disabled:opacity-45" style={{ background: "linear-gradient(135deg,#D4A853,#C39236)" }}>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0A1628" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                 </button>
               </div>
-              <p className="px-3 pb-2 text-[9px] text-black/35 leading-tight">
-                Estimates only; final approval by our RBI-licensed lending partner. Don't share Aadhaar/PAN/OTP in chat.
+              <p className="pt-1.5 text-[9px] text-white/30 leading-tight text-center">
+                Estimates only; final approval by our RBI-licensed lending partner. Never share Aadhaar/PAN/OTP here.
               </p>
             </div>
-          )}
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
-  );
-}
-
-function Bubble({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex justify-start">
-      <div className="max-w-[85%] rounded-2xl rounded-bl-sm bg-white border border-black/10 px-3 py-2 text-[13px] text-black/80 whitespace-pre-wrap">
-        {children}
-      </div>
-    </div>
   );
 }
