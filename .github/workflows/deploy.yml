@@ -2,16 +2,22 @@
 #
 # Vercel's own git integration does not work for us: these repositories are
 # private and owned by a GitHub organisation, which the Hobby plan does not
-# support. The result was production running 23 days stale on insurance and
-# 5 days on HRMS before anyone noticed, and three consecutive releases in
-# October that only shipped because someone remembered to run the CLI.
+# support. That left production 23 days stale on insurance before anyone
+# noticed. This does the same job through Actions, which has no restriction.
 #
-# This does the same job through Actions, which has no such restriction.
+# IMPORTANT — the build happens ON VERCEL, not here.
 #
-# Requires three repository secrets (Settings -> Secrets -> Actions):
-#   VERCEL_TOKEN       a token from vercel.com/account/tokens
-#   VERCEL_ORG_ID      team_Qy67dzG93vKgup9CbgehXyKU
-#   VERCEL_PROJECT_ID  prj_4n0EaBR1ixFwz4KUvUtQQgErin0B
+# The first version of this workflow ran `vercel build` in the runner and
+# deployed with --prebuilt. It went green and took production down with
+# MIDDLEWARE_INVOCATION_FAILED: a prebuilt upload does not carry the
+# project's runtime environment, so middleware booted with no Supabase URL
+# and threw on every request. The log said so plainly —
+#   "WARNING! Build not running on Vercel. System environment variables
+#    will not be available."
+# Do not reintroduce `vercel build` or `--prebuilt` here.
+#
+# Requires one repository secret beyond the two IDs:
+#   VERCEL_TOKEN  from vercel.com/account/tokens
 name: Deploy
 
 on:
@@ -33,18 +39,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Pull production environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy (Vercel builds remotely, with the project's env)
+        run: vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Build
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Verify the running commit matches this one
+        if: ${{ hashFiles('**/app/api/health/route.ts', '**/src/app/api/health/route.ts') != '' }}
+        run: |
+          sleep 15
+          for url in https://admin.creditspeed.in https://team.creditspeed.in; do
+            live=$(curl -s --max-time 20 "$url/api/health" | grep -o '"commit":"[a-f0-9]*"' || true)
+            [ -n "$live" ] && echo "$url -> $live"
+          done
+          echo "expected ${GITHUB_SHA}"
