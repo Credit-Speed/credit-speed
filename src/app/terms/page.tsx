@@ -1,5 +1,20 @@
 import LegalPage from "@/components/LegalPage";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions",
+  description:
+    "The terms governing use of creditspeed.in and Credit Speed's smartphone EMI financing services.",
+  alternates: { canonical: "/terms" },
+  openGraph: {
+    title: "Terms & Conditions | Credit Speed",
+    description: "The terms governing use of creditspeed.in and Credit Speed's smartphone EMI financing services.",
+    url: "/terms",
+  },
+};
+
+
 export default function TermsPage() {
   return (
     <LegalPage

@@ -1,5 +1,20 @@
 import LegalPage from "@/components/LegalPage";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "How Credit Speed collects, uses and protects your personal data under the Digital Personal Data Protection Act, 2023.",
+  alternates: { canonical: "/privacy" },
+  openGraph: {
+    title: "Privacy Policy | Credit Speed",
+    description: "How Credit Speed collects, uses and protects your personal data under the Digital Personal Data Protection Act, 2023.",
+    url: "/privacy",
+  },
+};
+
+
 export default function PrivacyPage() {
   return (
     <LegalPage

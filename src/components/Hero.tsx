@@ -73,8 +73,9 @@ export default function Hero() {
               variants={item}
               className="mt-8 text-white/60 text-base sm:text-lg max-w-md leading-relaxed"
             >
-              Walk in. Walk out with the phone. Pay in easy monthly installments —
-              minimal documentation, instant approval.
+              Buy a smartphone on EMI at your nearest partner shop in Kanpur,
+              Lucknow and across Uttar Pradesh. Walk in, walk out with the phone —
+              minimal documents, instant approval, no credit card needed.
             </motion.p>
 
             <motion.div variants={item} className="mt-10 flex items-center gap-4">
