@@ -1,0 +1,50 @@
+# Deploy to Vercel production on every push to main.
+#
+# Vercel's own git integration does not work for us: these repositories are
+# private and owned by a GitHub organisation, which the Hobby plan does not
+# support. The result was production running 23 days stale on insurance and
+# 5 days on HRMS before anyone noticed, and three consecutive releases in
+# October that only shipped because someone remembered to run the CLI.
+#
+# This does the same job through Actions, which has no such restriction.
+#
+# Requires three repository secrets (Settings -> Secrets -> Actions):
+#   VERCEL_TOKEN       a token from vercel.com/account/tokens
+#   VERCEL_ORG_ID      team_Qy67dzG93vKgup9CbgehXyKU
+#   VERCEL_PROJECT_ID  prj_4n0EaBR1ixFwz4KUvUtQQgErin0B
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  # A newer push supersedes one still deploying — never race two deploys.
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull production environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
