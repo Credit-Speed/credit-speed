@@ -3,6 +3,21 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import DirectorCard, { Director } from "@/components/DirectorCard";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us — Smartphone Finance for Bharat",
+  description:
+    "Credit Speed Microfinance partners with mobile retailers across Uttar Pradesh to put smartphones within reach on easy monthly instalments. Learn who we are and how we work.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About Us — Smartphone Finance for Bharat | Credit Speed",
+    description: "Credit Speed Microfinance partners with mobile retailers across Uttar Pradesh to put smartphones within reach on easy monthly instalments. Learn who we are and how we work.",
+    url: "/about",
+  },
+};
+
+
 const directors: Director[] = [
   {
     name: "Ravindra Singh",
