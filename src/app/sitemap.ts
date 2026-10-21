@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${SITE}/`,        lastModified: now, changeFrequency: "weekly",  priority: 1.0 },
     { url: `${SITE}/stores`,  lastModified: now, changeFrequency: "daily",   priority: 0.9 },
+    { url: `${SITE}/stores/kanpur`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE}/partner`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE}/about`,   lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
