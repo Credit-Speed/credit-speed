@@ -209,9 +209,9 @@ export default function ContactPage() {
                 </div>
                 <h3 className="font-display text-white text-lg tracking-tight mb-1">Visit Us</h3>
                 <p className="text-white/70 text-sm leading-relaxed">
-                  Office address<br />opening soon
+                  Plot No. F-7/136, Swaroop Nagar,<br />Kanpur, Uttar Pradesh
                 </p>
-                <p className="text-gold-400 text-[10px] mt-2 font-medium tracking-widest uppercase">Uttar Pradesh, India</p>
+                <p className="text-gold-400 text-[10px] mt-2 font-medium tracking-widest uppercase">Kanpur · Uttar Pradesh</p>
               </div>
             </div>
           </div>

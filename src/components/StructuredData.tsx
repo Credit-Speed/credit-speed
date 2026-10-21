@@ -27,9 +27,11 @@ const data = {
         { "@type": "PropertyValue", name: "CIN", value: "U64990RJ2026PTC113256" },
         { "@type": "PropertyValue", name: "GSTIN", value: "09AANCC7212N1Z6" },
       ],
+      telephone: "+91-88249-20949",
+      email: "admin@creditspeed.in",
       address: {
         "@type": "PostalAddress",
-        streetAddress: "Swaroop Nagar",
+        streetAddress: "Plot No. F-7/136, Swaroop Nagar",
         addressLocality: "Kanpur",
         addressRegion: "Uttar Pradesh",
         postalCode: "208002",
