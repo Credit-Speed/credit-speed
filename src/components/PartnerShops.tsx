@@ -6,6 +6,8 @@ export type Shop = {
   city: string;
   locality: string | null;
   pin: string | null;
+  /** True when the merchant is live on Oroboro and can originate a loan. */
+  oroboro: boolean;
   /** From a field officer's logged beat visit; null when never visited. */
   lat: number | null;
   lng: number | null;

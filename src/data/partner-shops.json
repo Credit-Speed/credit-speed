@@ -8,6 +8,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4832981,
       "lng": 80.3172352
     },
@@ -17,6 +18,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4171633,
       "lng": 80.3008967
     },
@@ -26,6 +28,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4833541,
       "lng": 80.3173049
     },
@@ -35,6 +38,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4964072,
       "lng": 80.2885689
     },
@@ -44,6 +48,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4944696,
       "lng": 80.2487026
     },
@@ -51,8 +56,9 @@
       "id": "122",
       "name": "Aadi Shakti Telecom",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kalyanpur",
       "pin": "208017",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -62,6 +68,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.396425,
       "lng": 80.3826667
     },
@@ -69,8 +76,9 @@
       "id": "162",
       "name": "Aashi Mobile World",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Naubasta",
       "pin": "208021",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -80,6 +88,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4833347,
       "lng": 80.3172778
     },
@@ -89,6 +98,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.3844007,
       "lng": 80.3759983
     },
@@ -98,6 +108,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4832138,
       "lng": 80.3171829
     },
@@ -107,6 +118,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4832819,
       "lng": 80.3173087
     },
@@ -114,8 +126,9 @@
       "id": "141",
       "name": "Aman Communication",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Karachi Khana",
       "pin": "208001",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -125,6 +138,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4098549,
       "lng": 80.3355419
     },
@@ -132,8 +146,9 @@
       "id": "94",
       "name": "Ansh Telecom",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Yashoda Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": 26.409655,
       "lng": 80.3362
     },
@@ -141,8 +156,9 @@
       "id": "71",
       "name": "Apni Dukan",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Govind Nagar",
       "pin": "208006",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -152,6 +168,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4386125,
       "lng": 80.326717
     },
@@ -161,6 +178,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4487588,
       "lng": 80.319644
     },
@@ -168,8 +186,9 @@
       "id": "86",
       "name": "Arsh Mobile Shop",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kidwai Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -179,6 +198,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4313983,
       "lng": 80.3157267
     },
@@ -188,6 +208,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.41053,
       "lng": 80.3286217
     },
@@ -195,8 +216,9 @@
       "id": "173",
       "name": "Balaji Telecom",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kesav Nagar",
       "pin": "208014",
+      "oroboro": true,
       "lat": 26.4318208,
       "lng": 80.3149033
     },
@@ -206,6 +228,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4009091,
       "lng": 80.3401629
     },
@@ -213,8 +236,9 @@
       "id": "109",
       "name": "Balaji Telecommunication",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Sainik Chauraha",
       "pin": "208011",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -224,6 +248,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4466767,
       "lng": 80.28518
     },
@@ -233,6 +258,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.409705,
       "lng": 80.3173667
     },
@@ -242,6 +268,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4947437,
       "lng": 80.248881
     },
@@ -251,6 +278,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4339061,
       "lng": 80.3324169
     },
@@ -260,6 +288,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4740995,
       "lng": 80.3478913
     },
@@ -269,6 +298,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": "208021",
+      "oroboro": false,
       "lat": null,
       "lng": null
     },
@@ -278,6 +308,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4833056,
       "lng": 80.3172874
     },
@@ -287,6 +318,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4833187,
       "lng": 80.3172854
     },
@@ -296,6 +328,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4832819,
       "lng": 80.3173087
     },
@@ -305,6 +338,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4944508,
       "lng": 80.2463002
     },
@@ -314,6 +348,7 @@
       "city": "Kanpur",
       "locality": "Near Police Chowki",
       "pin": "208005",
+      "oroboro": true,
       "lat": 26.4667433,
       "lng": 80.2979983
     },
@@ -323,6 +358,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4077152,
       "lng": 80.3317379
     },
@@ -332,6 +368,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4074233,
       "lng": 80.3318383
     },
@@ -339,8 +376,9 @@
       "id": "100",
       "name": "Durga Music And Telecom",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Yashoda Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -350,6 +388,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4131961,
       "lng": 80.330039
     },
@@ -359,6 +398,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4760131,
       "lng": 80.2781548
     },
@@ -368,6 +408,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.47607,
       "lng": 80.2782011
     },
@@ -377,6 +418,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4017868,
       "lng": 80.3386449
     },
@@ -384,8 +426,9 @@
       "id": "110",
       "name": "Flipsbuy",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Yashoda Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": 26.4011767,
       "lng": 80.3402267
     },
@@ -393,8 +436,9 @@
       "id": "91",
       "name": "Friends Enterprises",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Govind Nagar",
       "pin": "208006",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -404,6 +448,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4488602,
       "lng": 80.3186057
     },
@@ -413,6 +458,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4132381,
       "lng": 80.3300695
     },
@@ -422,6 +468,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": "208011",
+      "oroboro": false,
       "lat": null,
       "lng": null
     },
@@ -431,6 +478,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4826361,
       "lng": 80.287275
     },
@@ -440,6 +488,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4636971,
       "lng": 80.3555831
     },
@@ -447,8 +496,9 @@
       "id": "134",
       "name": "Ganpati Traders",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Pheel Khana",
       "pin": "208001",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -456,8 +506,9 @@
       "id": "79",
       "name": "Gautam Communication",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Somdutt Plaza",
       "pin": "208001",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -465,8 +516,9 @@
       "id": "143",
       "name": "Goel India Corporation",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Somdutt Plaza",
       "pin": "208001",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -474,8 +526,9 @@
       "id": "57",
       "name": "Gt Electronics",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kakadev",
       "pin": "208025",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -485,6 +538,7 @@
       "city": "Kanpur",
       "locality": "Vivekanand Nagar Dada Nagar",
       "pin": "208022",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -494,6 +548,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4833405,
       "lng": 80.3173024
     },
@@ -501,8 +556,9 @@
       "id": "66",
       "name": "Harsh Mobile",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kalyanpur",
       "pin": "208017",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -512,6 +568,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4832883,
       "lng": 80.3173072
     },
@@ -521,6 +578,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.5009101,
       "lng": 80.2540789
     },
@@ -530,6 +588,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.3956117,
       "lng": 80.3229833
     },
@@ -539,6 +598,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4833053,
       "lng": 80.3172688
     },
@@ -546,8 +606,9 @@
       "id": "75",
       "name": "Jai Ram Telecom",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Daubali",
       "pin": "208022",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -555,8 +616,9 @@
       "id": "155",
       "name": "Kaamini Mobile And Electronics",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Barra",
       "pin": "208027",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -566,6 +628,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": "208027",
+      "oroboro": false,
       "lat": null,
       "lng": null
     },
@@ -575,6 +638,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.3978533,
       "lng": 80.3803433
     },
@@ -584,6 +648,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4630038,
       "lng": 80.3583535
     },
@@ -593,6 +658,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4643206,
       "lng": 80.3594246
     },
@@ -602,6 +668,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.396035,
       "lng": 80.382595
     },
@@ -611,6 +678,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4635488,
       "lng": 80.3588838
     },
@@ -620,6 +688,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4418009,
       "lng": 80.2830671
     },
@@ -629,6 +698,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4491653,
       "lng": 80.3089617
     },
@@ -638,6 +708,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4630024,
       "lng": 80.3583593
     },
@@ -647,6 +718,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.413185,
       "lng": 80.3034867
     },
@@ -654,8 +726,9 @@
       "id": "65",
       "name": "Krishan Communication",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kalyanpur",
       "pin": "208017",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -665,6 +738,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4832819,
       "lng": 80.3173087
     },
@@ -674,6 +748,7 @@
       "city": "Kanpur",
       "locality": "Near Pipleshwar Mandir",
       "pin": "208012",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -681,8 +756,9 @@
       "id": "154",
       "name": "Kumar Electrician",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Barra",
       "pin": "208027",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -692,6 +768,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4140983,
       "lng": 80.317965
     },
@@ -701,6 +778,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.41415,
       "lng": 80.3177883
     },
@@ -710,6 +788,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4428633,
       "lng": 80.2957133
     },
@@ -717,8 +796,9 @@
       "id": "81",
       "name": "Lala Mobile And Electronics",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Barra",
       "pin": "208027",
+      "oroboro": true,
       "lat": 26.4429283,
       "lng": 80.2958317
     },
@@ -728,6 +808,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4678233,
       "lng": 80.3091399
     },
@@ -735,8 +816,9 @@
       "id": "121",
       "name": "M/s Best Mobile World",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kalyanpur",
       "pin": "208017",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -744,8 +826,9 @@
       "id": "150",
       "name": "M/s Lala Lal Chand Mobile Wala",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Dada Nagar",
       "pin": "208001",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -753,8 +836,9 @@
       "id": "68",
       "name": "M/s Laxmi Trading Co",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Shastri Nagar",
       "pin": "208005",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -764,6 +848,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4114748,
       "lng": 80.3330279
     },
@@ -771,8 +856,9 @@
       "id": "97",
       "name": "Maa Mobile Shop",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Yashoda Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -782,6 +868,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4770343,
       "lng": 80.2770233
     },
@@ -791,6 +878,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4770297,
       "lng": 80.2768927
     },
@@ -800,6 +888,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4949241,
       "lng": 80.2488364
     },
@@ -807,8 +896,9 @@
       "id": "132",
       "name": "Mobi Infotech",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Krishna Nagar",
       "pin": "208007",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -818,6 +908,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4132633,
       "lng": 80.330065
     },
@@ -825,8 +916,9 @@
       "id": "64",
       "name": "Mobile Adda",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Govind Nagar",
       "pin": "208006",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -834,8 +926,9 @@
       "id": "113",
       "name": "Mobile Cafe",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Yashoda Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -845,6 +938,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4939783,
       "lng": 80.2484845
     },
@@ -854,6 +948,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4980661,
       "lng": 80.2517083
     },
@@ -863,6 +958,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.44731,
       "lng": 80.309665
     },
@@ -872,6 +968,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4524767,
       "lng": 80.3102767
     },
@@ -881,6 +978,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": "208027",
+      "oroboro": false,
       "lat": null,
       "lng": null
     },
@@ -890,6 +988,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4711148,
       "lng": 80.3196924
     },
@@ -899,6 +998,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4264304,
       "lng": 80.3056793
     },
@@ -906,8 +1006,9 @@
       "id": "62",
       "name": "Mobile King",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Ashok Nagar",
       "pin": "208012",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -915,8 +1016,9 @@
       "id": "78",
       "name": "Mobile Town",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Shastri Nagar",
       "pin": "208005",
+      "oroboro": true,
       "lat": 26.4672333,
       "lng": 80.2984217
     },
@@ -926,6 +1028,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.449131,
       "lng": 80.3090534
     },
@@ -935,6 +1038,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4335141,
       "lng": 80.3404847
     },
@@ -942,8 +1046,9 @@
       "id": "149",
       "name": "Nana Digital",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Barra",
       "pin": "208027",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -951,8 +1056,9 @@
       "id": "170",
       "name": "New Apna Mobile Shop",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kidwai Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -962,6 +1068,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4076731,
       "lng": 80.331929
     },
@@ -969,8 +1076,9 @@
       "id": "165",
       "name": "New Hariom Mobile Wala",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Naubasta",
       "pin": "208021",
+      "oroboro": true,
       "lat": 26.3875794,
       "lng": 80.3119416
     },
@@ -978,8 +1086,9 @@
       "id": "186",
       "name": "New Jairam Telecom",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Gujaini",
       "pin": "208022",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -989,6 +1098,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": "208007",
+      "oroboro": false,
       "lat": null,
       "lng": null
     },
@@ -998,6 +1108,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4331683,
       "lng": 80.3353117
     },
@@ -1007,6 +1118,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4833317,
       "lng": 80.3173192
     },
@@ -1016,6 +1128,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4832754,
       "lng": 80.317204
     },
@@ -1025,6 +1138,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4944645,
       "lng": 80.2487112
     },
@@ -1034,6 +1148,7 @@
       "city": "Kanpur",
       "locality": "Nayara Petrol Pump",
       "pin": "208019",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1041,8 +1156,9 @@
       "id": "178",
       "name": "New Mohit Celectronics& Mobile Center",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Naubasta",
       "pin": "208021",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1050,8 +1166,9 @@
       "id": "50",
       "name": "New Shakti Door Sanchar",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kidwai Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1061,6 +1178,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4832762,
       "lng": 80.3172206
     },
@@ -1070,6 +1188,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": "208021",
+      "oroboro": false,
       "lat": null,
       "lng": null
     },
@@ -1079,6 +1198,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4633725,
       "lng": 80.3588689
     },
@@ -1088,6 +1208,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4083892,
       "lng": 80.3311606
     },
@@ -1095,8 +1216,9 @@
       "id": "111",
       "name": "Pitambara Electroworld",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Sainik Chauraha",
       "pin": "208011",
+      "oroboro": true,
       "lat": 26.4084117,
       "lng": 80.3311417
     },
@@ -1104,8 +1226,9 @@
       "id": "67",
       "name": "Piyush Telecom",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Shastri Nagar",
       "pin": "208005",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1113,8 +1236,9 @@
       "id": "44",
       "name": "Planet Mobile Traders",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kakadev",
       "pin": "208025",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1122,8 +1246,9 @@
       "id": "179",
       "name": "Raju Telecom",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Mangala Vihar",
       "pin": "208015",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1133,6 +1258,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.3988042,
       "lng": 80.3430724
     },
@@ -1140,8 +1266,9 @@
       "id": "112",
       "name": "Ram Mobile",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Yashoda Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1151,6 +1278,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4832768,
       "lng": 80.3173102
     },
@@ -1160,6 +1288,7 @@
       "city": "Kanpur",
       "locality": "Arya Nagar Chowki Ke Samne",
       "pin": "208002",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1169,6 +1298,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4016141,
       "lng": 80.3389571
     },
@@ -1176,8 +1306,9 @@
       "id": "107",
       "name": "Rathore Telecome",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Yashoda Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": 26.4014817,
       "lng": 80.3386033
     },
@@ -1187,6 +1318,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4742527,
       "lng": 80.3478475
     },
@@ -1196,6 +1328,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4832877,
       "lng": 80.3173198
     },
@@ -1203,8 +1336,9 @@
       "id": "151",
       "name": "Rishi Mobile",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Barra",
       "pin": "208027",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1214,6 +1348,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4931402,
       "lng": 80.2478828
     },
@@ -1221,8 +1356,9 @@
       "id": "76",
       "name": "Rishi Muni Mobile",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kalyanpur",
       "pin": "208020",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1232,6 +1368,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4832217,
       "lng": 80.3366597
     },
@@ -1241,6 +1378,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.41354,
       "lng": 80.3303167
     },
@@ -1248,8 +1386,9 @@
       "id": "156",
       "name": "Rupesh Mobile",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "T P Nagar",
       "pin": "208023",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1257,8 +1396,9 @@
       "id": "73",
       "name": "S.r Communication",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kalyanpur",
       "pin": "208020",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1268,6 +1408,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4637998,
       "lng": 80.3587019
     },
@@ -1277,6 +1418,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": "208021",
+      "oroboro": false,
       "lat": null,
       "lng": null
     },
@@ -1286,6 +1428,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4635195,
       "lng": 80.3589148
     },
@@ -1293,8 +1436,9 @@
       "id": "139",
       "name": "Sagar World",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Karachi Khana",
       "pin": "208001",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1304,6 +1448,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4452613,
       "lng": 80.3196297
     },
@@ -1311,8 +1456,9 @@
       "id": "89",
       "name": "Sai Telecom And Mobile Shop",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Binobha Nagar",
       "pin": "208014",
+      "oroboro": true,
       "lat": 26.4454417,
       "lng": 80.3204
     },
@@ -1322,6 +1468,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4832476,
       "lng": 80.3172157
     },
@@ -1331,6 +1478,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4833033,
       "lng": 80.3172696
     },
@@ -1340,6 +1488,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4678284,
       "lng": 80.3152881
     },
@@ -1349,6 +1498,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4020095,
       "lng": 80.3361239
     },
@@ -1358,6 +1508,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4634909,
       "lng": 80.3124671
     },
@@ -1365,8 +1516,9 @@
       "id": "56",
       "name": "Saurabh Mobile Hub",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Darshan Purwa",
       "pin": "208012",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1376,6 +1528,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.491936,
       "lng": 80.2858995
     },
@@ -1385,6 +1538,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4092719,
       "lng": 80.3362234
     },
@@ -1392,8 +1546,9 @@
       "id": "92",
       "name": "Shree Bhagwati Telecom",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Yashoda Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": 26.4092607,
       "lng": 80.3363078
     },
@@ -1403,6 +1558,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4487997,
       "lng": 80.3196736
     },
@@ -1410,8 +1566,9 @@
       "id": "127",
       "name": "Shri Hari Communications",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kalyanpur",
       "pin": "208017",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1419,8 +1576,9 @@
       "id": "152",
       "name": "Shukla Sales(s.s)",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Barra",
       "pin": "208027",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1430,6 +1588,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.446485,
       "lng": 80.3093217
     },
@@ -1437,8 +1596,9 @@
       "id": "60",
       "name": "Shyam Telecom",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Govind Nagar",
       "pin": "208006",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1448,6 +1608,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.465587,
       "lng": 80.2933727
     },
@@ -1455,8 +1616,9 @@
       "id": "153",
       "name": "Sri Krishna Enterprises",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Barra",
       "pin": "208027",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1466,6 +1628,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.433905,
       "lng": 80.3324167
     },
@@ -1473,8 +1636,9 @@
       "id": "83",
       "name": "Sri New Bhagwati Telecom",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kidwai Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1484,6 +1648,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": "208021",
+      "oroboro": false,
       "lat": null,
       "lng": null
     },
@@ -1493,6 +1658,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4047883,
       "lng": 80.3153883
     },
@@ -1502,6 +1668,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4392924,
       "lng": 80.3180635
     },
@@ -1509,8 +1676,9 @@
       "id": "59",
       "name": "Telephone Point",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Govind Nagar",
       "pin": "208005",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1518,8 +1686,9 @@
       "id": "51",
       "name": "The 2 Brothers Mobiles",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kanpur Cantt",
       "pin": "208004",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1529,6 +1698,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": "208006",
+      "oroboro": false,
       "lat": null,
       "lng": null
     },
@@ -1538,6 +1708,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4833103,
       "lng": 80.3172365
     },
@@ -1547,6 +1718,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4833028,
       "lng": 80.3172658
     },
@@ -1556,6 +1728,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4491735,
       "lng": 80.3095812
     },
@@ -1565,6 +1738,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": "208021",
+      "oroboro": false,
       "lat": null,
       "lng": null
     },
@@ -1572,8 +1746,9 @@
       "id": "160",
       "name": "Vaishnavi Telecom",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "Kidwai Nagar",
       "pin": "208011",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1583,6 +1758,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.438135,
       "lng": 80.3409783
     },
@@ -1592,6 +1768,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": "208011",
+      "oroboro": false,
       "lat": null,
       "lng": null
     },
@@ -1601,6 +1778,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.411795,
       "lng": 80.305105
     },
@@ -1610,6 +1788,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4477516,
       "lng": 80.3023247
     },
@@ -1619,6 +1798,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4366883,
       "lng": 80.3459433
     },
@@ -1626,8 +1806,9 @@
       "id": "175",
       "name": "Yashi Telecom & Repairing Centre",
       "city": "Kanpur",
-      "locality": null,
+      "locality": "T P Nagar",
       "pin": "208014",
+      "oroboro": true,
       "lat": null,
       "lng": null
     },
@@ -1637,6 +1818,7 @@
       "city": "Kanpur",
       "locality": null,
       "pin": null,
+      "oroboro": false,
       "lat": 26.4833015,
       "lng": 80.317215
     }

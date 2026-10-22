@@ -26,7 +26,7 @@ if (!url || !key) {
 }
 
 const res = await fetch(
-  `${url}/rest/v1/retailers?select=id,shop_name,city,locality,pin_code,status,onboarding_status&limit=2000`,
+  `${url}/rest/v1/retailers?select=id,shop_name,city,locality,pin_code,oroboro_code,status,onboarding_status&limit=2000`,
   { headers: { apikey: key, Authorization: `Bearer ${key}` } }
 );
 if (!res.ok) {
@@ -86,6 +86,10 @@ const shops = rows
     pin: /^\d{6}$/.test(String(r.pin_code || "").trim())
       ? String(r.pin_code).trim()
       : null,
+    // An Oroboro code is what makes a merchant able to actually originate a
+    // loan. A shop without one cannot help a customer who walks in, so it is
+    // never plotted on the map.
+    oroboro: Boolean((r.oroboro_code || "").trim()),
     lat: coords.get(r.id)?.lat ?? null,
     lng: coords.get(r.id)?.lng ?? null,
   }))
@@ -106,3 +110,4 @@ shops.forEach((s) => (byCity[s.city] = (byCity[s.city] || 0) + 1));
 console.log(`wrote ${shops.length} shops ->`, dest);
 console.log("by city:", byCity);
 console.log("with coordinates:", shops.filter((s) => s.lat && s.lng).length, "/", shops.length);
+console.log("mappable (oroboro + coords):", shops.filter((s) => s.oroboro && s.lat && s.lng).length);

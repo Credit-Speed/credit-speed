@@ -16,6 +16,7 @@ const StoreMap = dynamic(() => import("./StoreMap"), {
 export type MappableShop = {
   id: string;
   name: string;
+  oroboro: boolean;
   locality: string | null;
   pin: string | null;
   lat: number | null;
@@ -46,7 +47,7 @@ export default function PartnerMap({
   const mapped = useMemo<MapShop[]>(
     () =>
       shops
-        .filter((s) => s.lat != null && s.lng != null)
+        .filter((s) => s.oroboro && s.lat != null && s.lng != null)
         .map((s) => ({
           id: s.id,
           name: s.name,
@@ -75,7 +76,7 @@ export default function PartnerMap({
           Partner shops on the map
         </h2>
         <p className="text-white/40 text-sm">
-          {mapped.length} of {shops.length} shops located
+          {mapped.length} shops you can walk into today
         </p>
       </div>
 
