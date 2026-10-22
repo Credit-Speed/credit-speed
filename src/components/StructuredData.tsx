@@ -34,7 +34,7 @@ const data = {
         streetAddress: "Plot No. F-7/136, Swaroop Nagar",
         addressLocality: "Kanpur",
         addressRegion: "Uttar Pradesh",
-        postalCode: "208002",
+        postalCode: "208025",
         addressCountry: "IN",
       },
       areaServed: [
