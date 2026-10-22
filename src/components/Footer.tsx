@@ -44,6 +44,7 @@ export default function Footer() {
             <h4 className="text-white/30 text-[10px] font-semibold tracking-[0.25em] uppercase mb-5">For Users</h4>
             <ul className="space-y-3">
               <li><Link href="/stores" className="text-white/65 hover:text-gold-400 text-sm transition">Find a Store</Link></li>
+              <li><Link href="/stores/kanpur" className="text-white/65 hover:text-gold-400 text-sm transition">Mobile Shops in Kanpur</Link></li>
               <li>
                 <a
                   href="https://signup.oroboro.in"

@@ -1,9 +1,13 @@
 "use client";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
-const cities = [
+// href is set only where a city actually has a store page to send someone
+// to. A tile that links nowhere is a dead end for a visitor and invisible to
+// a crawler.
+const cities: { name: string; status: string; href?: string }[] = [
   { name: "Lucknow", status: "active" },
-  { name: "Kanpur", status: "active" },
+  { name: "Kanpur", status: "active", href: "/stores/kanpur" },
   { name: "Varanasi", status: "active" },
   { name: "Agra", status: "coming" },
   { name: "Meerut", status: "coming" },
@@ -55,7 +59,15 @@ export default function Cities() {
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-gold-400" />
                 </span>
               )}
-              <p className="text-white font-display text-lg tracking-tight">{city.name}</p>
+              {city.href ? (
+                <Link href={city.href} className="block">
+                  <p className="text-white font-display text-lg tracking-tight hover:text-gold-400 transition">
+                    {city.name}
+                  </p>
+                </Link>
+              ) : (
+                <p className="text-white font-display text-lg tracking-tight">{city.name}</p>
+              )}
               <p
                 className={`text-[10px] mt-1 tracking-widest uppercase ${
                   city.status === "active" ? "text-gold-400" : "text-white/30"
