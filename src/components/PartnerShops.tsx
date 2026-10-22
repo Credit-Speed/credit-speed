@@ -1,10 +1,14 @@
 import Link from "next/link";
 
 export type Shop = {
+  id: string;
   name: string;
   city: string;
   locality: string | null;
   pin: string | null;
+  /** From a field officer's logged beat visit; null when never visited. */
+  lat: number | null;
+  lng: number | null;
 };
 
 /**

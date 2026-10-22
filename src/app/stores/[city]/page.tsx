@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ShopGrid, groupByPin, type Shop } from "@/components/PartnerShops";
+import PartnerMap from "@/components/PartnerMap";
 import data from "@/data/partner-shops.json";
 
 const ALL = data.shops as Shop[];
@@ -164,6 +165,12 @@ export default async function CityStoresPage({
             <p className="font-display text-gold-400 text-4xl tracking-tighter">Same day</p>
             <p className="text-white/45 text-sm mt-1">approval and handover</p>
           </div>
+        </div>
+      </section>
+
+      <section className="py-16 px-6 lg:px-12 border-t border-white/5">
+        <div className="max-w-[1400px] mx-auto">
+          <PartnerMap shops={shops} city={city} />
         </div>
       </section>
 

@@ -26,7 +26,7 @@ if (!url || !key) {
 }
 
 const res = await fetch(
-  `${url}/rest/v1/retailers?select=shop_name,city,locality,pin_code,status,onboarding_status&limit=2000`,
+  `${url}/rest/v1/retailers?select=id,shop_name,city,locality,pin_code,status,onboarding_status&limit=2000`,
   { headers: { apikey: key, Authorization: `Bearer ${key}` } }
 );
 if (!res.ok) {
@@ -42,6 +42,33 @@ const title = (s) =>
     .replace(/(^|\s|-)([a-z])/g, (_, p, c) => p + c.toUpperCase());
 
 const rows = await res.json();
+
+// Coordinates come from beat visits — the point where a field officer stood
+// when they logged a visit to that shop. That is a better source than
+// geocoding our stored addresses, which are landmark-style ("Near bachpan
+// school") and would geocode to the wrong place. A wrong pin sends a
+// customer to the wrong shop, which is worse than no pin at all.
+const visitRes = await fetch(
+  `${url}/rest/v1/beat_visits?select=retailer_id,lat,lng&limit=5000`,
+  { headers: { apikey: key, Authorization: `Bearer ${key}` } }
+);
+const visits = visitRes.ok ? await visitRes.json() : [];
+
+// Kanpur and the districts we actually operate in. Two visits in the data
+// were logged from Patna, 500km away; plotting those would put a partner
+// shop in another state.
+const IN_RANGE = (lat, lng) =>
+  lat > 25.9 && lat < 27.1 && lng > 79.6 && lng < 81.2;
+
+const coords = new Map();
+for (const v of visits) {
+  if (!v.retailer_id || v.lat == null || v.lng == null) continue;
+  const lat = Number(v.lat), lng = Number(v.lng);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
+  if (!IN_RANGE(lat, lng)) continue;
+  // Most recent visit wins; the row order from the API is good enough here.
+  coords.set(v.retailer_id, { lat, lng });
+}
 const shops = rows
   // Live partners only: a shop still in the approval queue is not somewhere
   // we can send a customer.
@@ -52,12 +79,15 @@ const shops = rows
   )
   .filter((r) => (r.shop_name || "").trim() && (r.city || "").trim())
   .map((r) => ({
+    id: String(r.id),
     name: title(r.shop_name),
     city: title(r.city),
     locality: (r.locality || "").trim() ? title(r.locality) : null,
     pin: /^\d{6}$/.test(String(r.pin_code || "").trim())
       ? String(r.pin_code).trim()
       : null,
+    lat: coords.get(r.id)?.lat ?? null,
+    lng: coords.get(r.id)?.lng ?? null,
   }))
   .sort((a, b) => a.name.localeCompare(b.name));
 
@@ -75,3 +105,4 @@ const byCity = {};
 shops.forEach((s) => (byCity[s.city] = (byCity[s.city] || 0) + 1));
 console.log(`wrote ${shops.length} shops ->`, dest);
 console.log("by city:", byCity);
+console.log("with coordinates:", shops.filter((s) => s.lat && s.lng).length, "/", shops.length);
