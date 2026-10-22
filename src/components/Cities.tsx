@@ -5,16 +5,36 @@ import Link from "next/link";
 // href is set only where a city actually has a store page to send someone
 // to. A tile that links nowhere is a dead end for a visitor and invisible to
 // a crawler.
-const cities: { name: string; status: string; href?: string }[] = [
-  { name: "Lucknow", status: "active" },
-  { name: "Kanpur", status: "active", href: "/stores/kanpur" },
-  { name: "Varanasi", status: "active" },
-  { name: "Agra", status: "coming" },
-  { name: "Meerut", status: "coming" },
-  { name: "Allahabad", status: "coming" },
-  { name: "Gorakhpur", status: "coming" },
-  { name: "Bareilly", status: "coming" },
+import shopData from "@/data/partner-shops.json";
+
+// A city is "active" when it actually has partner shops someone can walk
+// into, and nothing else. Hardcoding this is how the homepage ended up
+// claiming Lucknow and Varanasi were live while having zero merchants in
+// either. The list is derived, so Lucknow turns itself on the day its first
+// shop is onboarded and the snapshot is regenerated.
+const LIVE = new Set((shopData.shops as { city: string }[]).map((s) => s.city));
+
+const PLANNED = [
+  "Lucknow",
+  "Kanpur",
+  "Varanasi",
+  "Agra",
+  "Meerut",
+  "Allahabad",
+  "Gorakhpur",
+  "Bareilly",
 ];
+
+const cities: { name: string; status: string; href?: string }[] = PLANNED.map(
+  (name) => {
+    const live = LIVE.has(name);
+    return {
+      name,
+      status: live ? "active" : "coming",
+      href: live ? `/stores/${name.toLowerCase().replace(/\s+/g, "-")}` : undefined,
+    };
+  }
+);
 
 export default function Cities() {
   return (
