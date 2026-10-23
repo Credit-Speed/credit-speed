@@ -70,12 +70,16 @@ for (const v of visits) {
   coords.set(v.retailer_id, { lat, lng });
 }
 const shops = rows
-  // Live partners only: a shop still in the approval queue is not somewhere
-  // we can send a customer.
+  // A real partner is one that is live on Oroboro. Being "approved" in our
+  // own system only means the KYC was checked — the retailers table also
+  // holds shops that telecallers entered while prospecting, which never
+  // agreed to anything. Publishing those as partner shops would be naming
+  // somebody else's business as ours.
   .filter(
     (r) =>
       r.status === "enabled" &&
-      (r.onboarding_status === "approved" || r.onboarding_status === null)
+      (r.onboarding_status === "approved" || r.onboarding_status === null) &&
+      String(r.oroboro_code || "").trim()
   )
   .filter((r) => (r.shop_name || "").trim() && (r.city || "").trim())
   .map((r) => ({
