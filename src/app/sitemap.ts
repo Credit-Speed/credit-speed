@@ -24,6 +24,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.9,
       })
     ),
+    ...[...new Set((shopData.shops as { city: string }[]).map((s) => s.city))].map(
+      (city) => ({
+        url: `${SITE}/hi/stores/${city.toLowerCase().replace(/\s+/g, "-")}`,
+        lastModified: now,
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+      })
+    ),
     { url: `${SITE}/hi`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     // The guides answer what people search before they are ready to buy, so
     // they rank for different queries than the store pages and are worth

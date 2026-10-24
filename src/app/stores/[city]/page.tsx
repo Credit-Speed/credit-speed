@@ -41,7 +41,13 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: { canonical: `/stores/${slug}` },
+    alternates: {
+      canonical: `/stores/${slug}`,
+      languages: {
+        "en-IN": `/stores/${slug}`,
+        "hi-IN": `/hi/stores/${slug}`,
+      },
+    },
     openGraph: { title: `${title} | Credit Speed`, description, url: `/stores/${slug}` },
   };
 }
