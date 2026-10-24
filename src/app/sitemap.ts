@@ -32,6 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.8,
       })
     ),
+    { url: `${SITE}/shop`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE}/hi`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     // The guides answer what people search before they are ready to buy, so
     // they rank for different queries than the store pages and are worth

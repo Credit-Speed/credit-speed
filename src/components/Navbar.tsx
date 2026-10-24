@@ -10,6 +10,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/partner", label: "For Retailers" },
+  { href: "/shop", label: "Buy on EMI" },
   { href: "/stores", label: "Stores" },
   { href: "/contact", label: "Contact" },
 ];
