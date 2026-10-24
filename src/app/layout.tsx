@@ -28,7 +28,12 @@ export const metadata: Metadata = {
   authors: [{ name: "Credit Speed Microfinance Private Limited" }],
   creator: "Credit Speed Microfinance Private Limited",
   publisher: "Credit Speed Microfinance Private Limited",
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    // The Hindi page is a real alternate, not a translation widget. Declaring
+    // it both ways is what stops the two competing with each other.
+    languages: { "en-IN": "/", "hi-IN": "/hi" },
+  },
   openGraph: {
     type: "website",
     siteName: "Credit Speed",

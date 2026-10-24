@@ -24,6 +24,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.9,
       })
     ),
+    { url: `${SITE}/hi`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    // The guides answer what people search before they are ready to buy, so
+    // they rank for different queries than the store pages and are worth
+    // their own entries.
+    { url: `${SITE}/guides/emi-without-credit-card`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE}/guides/documents-required-for-mobile-emi`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE}/partner`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE}/about`,   lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },

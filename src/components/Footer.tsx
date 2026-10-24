@@ -45,6 +45,9 @@ export default function Footer() {
             <ul className="space-y-3">
               <li><Link href="/stores" className="text-white/65 hover:text-gold-400 text-sm transition">Find a Store</Link></li>
               <li><Link href="/stores/kanpur" className="text-white/65 hover:text-gold-400 text-sm transition">Mobile Shops in Kanpur</Link></li>
+              <li><Link href="/guides/emi-without-credit-card" className="text-white/65 hover:text-gold-400 text-sm transition">EMI Without a Credit Card</Link></li>
+              <li><Link href="/guides/documents-required-for-mobile-emi" className="text-white/65 hover:text-gold-400 text-sm transition">Documents Required</Link></li>
+              <li><Link href="/hi" lang="hi-IN" className="text-white/65 hover:text-gold-400 text-sm transition">हिंदी में</Link></li>
               <li>
                 <a
                   href="https://signup.oroboro.in"
