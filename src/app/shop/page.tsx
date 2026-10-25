@@ -3,12 +3,12 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ShopClient from "@/components/ShopClient";
-import { PHONES, DEFAULT_TENURE, monthlyInstalment } from "@/data/phones";
+import { PHONES, DEFAULT_TENURE, quote } from "@/data/phones";
 import shopData from "@/data/partner-shops.json";
 
 const SHOPS = (shopData.shops as unknown[]).length;
 const CHEAPEST = Math.min(...PHONES.map((p) => p.price));
-const FROM_EMI = monthlyInstalment(CHEAPEST, DEFAULT_TENURE).emi;
+const FROM_EMI = quote(CHEAPEST, DEFAULT_TENURE).emi;
 
 export const metadata: Metadata = {
   title: "Buy a Phone on EMI — Mobile EMI Shop in Kanpur",

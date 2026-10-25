@@ -90,20 +90,64 @@ export const PHONES: Phone[] = [
  */
 export const TENURES = [6, 9, 12] as const;
 export const DEFAULT_TENURE = 9;
-/** Fixed at 20%. A slider implied a flexibility the product does not offer. */
+/** Fixed at 20% of the product price. Confirmed against a live Delivery Order. */
 export const DOWN_PAYMENT_PCT = 20;
 
 /**
- * Flat split of the financed amount. No interest rate is claimed, because
- * the rate is set on approval and a figure quoted here that the merchant
- * contradicts at the counter is worse than quoting nothing.
+ * Annual rate, reducing balance.
  *
- * This does NOT include the mandatory insurance premium or the processing
- * fee. Both are real costs the customer pays, so the instalment shown is
- * lower than what they will be asked for until those are folded in.
+ * Verified against a real Delivery Order dated 20 Oct 2026: a net loan of
+ * ₹24,414 over 6 months produced an EMI of ₹4,383, which a reducing-balance
+ * calculation reproduces at 26.00% to within eight paise. A flat-rate
+ * calculation is out by ₹235 a month, so the method is not in doubt.
+ *
+ * Transwarranty have since raised the rate to 27% across all tenures, up
+ * from 24.07% on short tenures and 25.45% on long ones.
  */
-export function monthlyInstalment(price: number, months: number) {
+export const ANNUAL_RATE_PCT = 27;
+
+/** 3% of the product price plus 18% GST. Matches the DO to the rupee. */
+export const PROCESSING_FEE_PCT = 3;
+export const GST_PCT = 18;
+
+export type Quote = {
+  /** 20% of the product price. */
+  down: number;
+  /** Processing fee including GST, collected at the shop. */
+  processingFee: number;
+  /** What the customer actually hands over at the counter. */
+  atCounter: number;
+  /** The amount financed. */
+  financed: number;
+  emi: number;
+  /** Everything the customer pays, start to finish. */
+  total: number;
+};
+
+/**
+ * The full cost of a phone on EMI, as the customer experiences it.
+ *
+ * Showing only the instalment understates what someone is asked for at the
+ * counter — on a ₹30,517 phone that is ₹7,183 before they walk out, and a
+ * customer who budgeted from an instalment alone blames the shopkeeper for
+ * a number this website published.
+ *
+ * No advance EMI: Credit Speed collects the down payment and the processing
+ * fee, nothing more.
+ */
+export function quote(price: number, months: number): Quote {
   const down = Math.round((price * DOWN_PAYMENT_PCT) / 100);
+  const processingFee = Math.round((price * PROCESSING_FEE_PCT * (100 + GST_PCT)) / 10000);
   const financed = price - down;
-  return { down, financed, emi: Math.round(financed / months) };
+  const r = ANNUAL_RATE_PCT / 12 / 100;
+  const f = Math.pow(1 + r, months);
+  const emi = Math.round((financed * r * f) / (f - 1));
+  return {
+    down,
+    processingFee,
+    atCounter: down + processingFee,
+    financed,
+    emi,
+    total: down + processingFee + emi * months,
+  };
 }

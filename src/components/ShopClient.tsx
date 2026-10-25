@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 import {
-  PHONES, BRANDS, TENURES, DEFAULT_TENURE, DOWN_PAYMENT_PCT,
-  monthlyInstalment, type Phone,
+  PHONES, BRANDS, TENURES, DEFAULT_TENURE, DOWN_PAYMENT_PCT, ANNUAL_RATE_PCT,
+  quote, type Phone,
 } from "@/data/phones";
 
 const rs = (n: number) => "₹" + new Intl.NumberFormat("en-IN").format(n);
@@ -48,7 +48,7 @@ export default function ShopClient() {
     ).sort((a, b2) => a.price - b2.price);
   }, [brand, budget]);
 
-  const calc = picked ? monthlyInstalment(picked.price, tenure) : null;
+  const q = picked ? quote(picked.price, tenure) : null;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,7 +67,7 @@ export default function ShopClient() {
           source: "shop",
           consent: true,
           intent: picked
-            ? `${picked.brand} ${picked.model} · ${rs(picked.price)} · ${tenure} months · down ${rs(calc!.down)} · EMI approx ${rs(calc!.emi)}`
+            ? `${picked.brand} ${picked.model} · ${rs(picked.price)} · ${tenure} months · at counter ${rs(q!.atCounter)} · EMI ${rs(q!.emi)} x ${tenure}`
             : "EMI enquiry from shop",
         }),
       });
@@ -107,7 +107,7 @@ export default function ShopClient() {
       {/* ── Catalogue ── */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {shown.map((p) => {
-          const { emi } = monthlyInstalment(p.price, DEFAULT_TENURE);
+          const { emi } = quote(p.price, DEFAULT_TENURE);
           const active = picked?.slug === p.slug;
           return (
             <button
@@ -136,7 +136,7 @@ export default function ShopClient() {
       )}
 
       {/* ── Calculator + enquiry ── */}
-      {picked && calc && (
+      {picked && q && (
         <div id="enquire" className="mt-12 p-6 sm:p-8 rounded-2xl border border-gold-400/25 bg-white/[0.02]">
           <p className="text-white/40 text-[11px] uppercase tracking-widest">{picked.brand}</p>
           <h2 className="font-display text-white text-2xl sm:text-3xl tracking-tighter mt-1 mb-6">
@@ -145,12 +145,13 @@ export default function ShopClient() {
 
           <div className="grid sm:grid-cols-2 gap-8">
             <div>
-              <div className="p-4 rounded-xl bg-white/[0.04] border border-white/8">
-                <p className="text-white/45 text-xs uppercase tracking-widest">
-                  Down payment — {DOWN_PAYMENT_PCT}%
+              <div className="p-5 rounded-xl bg-white/[0.04] border border-white/8">
+                <p className="text-white/45 text-xs uppercase tracking-widest">Pay at the shop</p>
+                <p className="font-display text-white text-3xl tracking-tighter mt-1">
+                  {rs(q.atCounter)}
                 </p>
-                <p className="font-display text-white text-2xl tracking-tighter mt-1">
-                  {rs(calc.down)}
+                <p className="text-white/40 text-[13px] mt-2">
+                  Down payment {rs(q.down)} + processing fee {rs(q.processingFee)}
                 </p>
               </div>
 
@@ -167,13 +168,13 @@ export default function ShopClient() {
 
               <div className="mt-7 p-5 rounded-xl bg-white/[0.04] border border-white/8">
                 <p className="text-white/45 text-xs uppercase tracking-widest">Monthly instalment</p>
-                <p className="font-display text-gold-400 text-4xl tracking-tighter mt-1">{rs(calc.emi)}</p>
+                <p className="font-display text-gold-400 text-4xl tracking-tighter mt-1">{rs(q.emi)}</p>
                 <p className="text-white/40 text-[13px] mt-2">
-                  {rs(calc.down)} today, then {tenure} payments of {rs(calc.emi)}.
+                  {tenure} monthly payments. Total you pay: {rs(q.total)}.
                 </p>
                 <p className="text-white/30 text-[11px] mt-3 leading-relaxed">
-                  Indicative only. Your final instalment is confirmed at the shop once the
-                  application is approved.
+                  Calculated at {ANNUAL_RATE_PCT}% per year on the reducing balance. Final figures are
+                  confirmed at the shop once your application is approved.
                 </p>
               </div>
             </div>
