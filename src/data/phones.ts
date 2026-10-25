@@ -90,11 +90,20 @@ export const PHONES: Phone[] = [
  */
 export const TENURES = [6, 9, 12] as const;
 export const DEFAULT_TENURE = 9;
-export const DOWN_PAYMENT = { min: 10, max: 40, default: 20 };
+/** Fixed at 20%. A slider implied a flexibility the product does not offer. */
+export const DOWN_PAYMENT_PCT = 20;
 
-/** Flat split of the financed amount. No interest rate is claimed. */
-export function monthlyInstalment(price: number, downPct: number, months: number) {
-  const down = Math.round((price * downPct) / 100);
+/**
+ * Flat split of the financed amount. No interest rate is claimed, because
+ * the rate is set on approval and a figure quoted here that the merchant
+ * contradicts at the counter is worse than quoting nothing.
+ *
+ * This does NOT include the mandatory insurance premium or the processing
+ * fee. Both are real costs the customer pays, so the instalment shown is
+ * lower than what they will be asked for until those are folded in.
+ */
+export function monthlyInstalment(price: number, months: number) {
+  const down = Math.round((price * DOWN_PAYMENT_PCT) / 100);
   const financed = price - down;
   return { down, financed, emi: Math.round(financed / months) };
 }

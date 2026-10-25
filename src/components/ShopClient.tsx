@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import {
-  PHONES, BRANDS, TENURES, DEFAULT_TENURE, DOWN_PAYMENT,
+  PHONES, BRANDS, TENURES, DEFAULT_TENURE, DOWN_PAYMENT_PCT,
   monthlyInstalment, type Phone,
 } from "@/data/phones";
 
@@ -31,7 +31,6 @@ export default function ShopClient() {
   const [budget, setBudget] = useState<number>(-1);
   const [picked, setPicked] = useState<Phone | null>(null);
   const [tenure, setTenure] = useState<number>(DEFAULT_TENURE);
-  const [down, setDown] = useState<number>(DOWN_PAYMENT.default);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -49,7 +48,7 @@ export default function ShopClient() {
     ).sort((a, b2) => a.price - b2.price);
   }, [brand, budget]);
 
-  const calc = picked ? monthlyInstalment(picked.price, down, tenure) : null;
+  const calc = picked ? monthlyInstalment(picked.price, tenure) : null;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,7 +107,7 @@ export default function ShopClient() {
       {/* ── Catalogue ── */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {shown.map((p) => {
-          const { emi } = monthlyInstalment(p.price, DOWN_PAYMENT.default, DEFAULT_TENURE);
+          const { emi } = monthlyInstalment(p.price, DEFAULT_TENURE);
           const active = picked?.slug === p.slug;
           return (
             <button
@@ -146,18 +145,14 @@ export default function ShopClient() {
 
           <div className="grid sm:grid-cols-2 gap-8">
             <div>
-              <label className="block text-white/45 text-xs uppercase tracking-widest mb-3">
-                Down payment — {down}% ({rs(calc.down)})
-              </label>
-              <input
-                type="range"
-                min={DOWN_PAYMENT.min}
-                max={DOWN_PAYMENT.max}
-                step={5}
-                value={down}
-                onChange={(e) => setDown(Number(e.target.value))}
-                className="w-full accent-[#C39236]"
-              />
+              <div className="p-4 rounded-xl bg-white/[0.04] border border-white/8">
+                <p className="text-white/45 text-xs uppercase tracking-widest">
+                  Down payment — {DOWN_PAYMENT_PCT}%
+                </p>
+                <p className="font-display text-white text-2xl tracking-tighter mt-1">
+                  {rs(calc.down)}
+                </p>
+              </div>
 
               <label className="block text-white/45 text-xs uppercase tracking-widest mt-6 mb-3">
                 Repayment period
