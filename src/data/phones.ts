@@ -88,8 +88,11 @@ export const PHONES: Phone[] = [
  * nothing at all. Confirm these tenures and the down payment range before
  * launch.
  */
-export const TENURES = [6, 9, 12] as const;
-export const DEFAULT_TENURE = 9;
+// 6/8/10. Transwarranty fund 4, 6, 8, 10 and 12; Credit Speed offers the
+// middle three. 9 months was quoted here briefly and is not a term they
+// fund at all, so it could not have been honoured at the counter.
+export const TENURES = [6, 8, 10] as const;
+export const DEFAULT_TENURE = 8;
 /** Fixed at 20% of the product price. Confirmed against a live Delivery Order. */
 export const DOWN_PAYMENT_PCT = 20;
 
