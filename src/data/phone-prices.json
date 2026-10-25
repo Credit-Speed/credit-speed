@@ -1,0 +1,304 @@
+{
+  "generatedAt": "2026-10-25",
+  "source": "customers.product_value — Credit Speed loan book (insurance is mandatory on every loan, so coverage is complete)",
+  "rules": {
+    "FRESH_SINGLE_DAYS": 30,
+    "FRESH_MULTI_DAYS": 90,
+    "REVIEW_ABOVE": 35000,
+    "VARIANT_SPREAD": 0.15
+  },
+  "totals": {
+    "rawRows": 29,
+    "phones": 12,
+    "held": 7,
+    "rejected": 0
+  },
+  "phones": [
+    {
+      "brand": "Motorola",
+      "model": "G37",
+      "slug": "motorola-g37",
+      "price": 17999,
+      "units": 6,
+      "minPrice": 16000,
+      "maxPrice": 17999,
+      "lastFinanced": "2026-10-25",
+      "daysSince": 0,
+      "variants": [
+        "4/64"
+      ]
+    },
+    {
+      "brand": "realme",
+      "model": "P4R",
+      "slug": "realme-p4r",
+      "price": 24499,
+      "units": 2,
+      "minPrice": 23999,
+      "maxPrice": 24999,
+      "lastFinanced": "2026-09-24",
+      "daysSince": 31,
+      "variants": []
+    },
+    {
+      "brand": "OPPO",
+      "model": "A6X 5G",
+      "slug": "oppo-a6x-5g",
+      "price": 24249,
+      "units": 2,
+      "minPrice": 23999,
+      "maxPrice": 24499,
+      "lastFinanced": "2026-10-25",
+      "daysSince": 0,
+      "variants": []
+    },
+    {
+      "brand": "realme",
+      "model": "C83",
+      "slug": "realme-c83",
+      "price": 21999,
+      "units": 2,
+      "minPrice": 21499,
+      "maxPrice": 22499,
+      "lastFinanced": "2026-09-24",
+      "daysSince": 31,
+      "variants": []
+    },
+    {
+      "brand": "Infinix",
+      "model": "Smart 20",
+      "slug": "infinix-smart-20",
+      "price": 12999,
+      "units": 2,
+      "minPrice": 12499,
+      "maxPrice": 13499,
+      "lastFinanced": "2026-10-13",
+      "daysSince": 12,
+      "variants": []
+    },
+    {
+      "brand": "Redmi",
+      "model": "Note 15",
+      "slug": "redmi-note-15",
+      "price": 29990,
+      "units": 1,
+      "minPrice": 29990,
+      "maxPrice": 29990,
+      "lastFinanced": "2026-10-16",
+      "daysSince": 9,
+      "variants": []
+    },
+    {
+      "brand": "Samsung",
+      "model": "M35",
+      "slug": "samsung-m35",
+      "price": 26999,
+      "units": 1,
+      "minPrice": 26999,
+      "maxPrice": 26999,
+      "lastFinanced": "2026-10-06",
+      "daysSince": 19,
+      "variants": [
+        "6/128"
+      ]
+    },
+    {
+      "brand": "vivo",
+      "model": "Y21",
+      "slug": "vivo-y21",
+      "price": 24999,
+      "units": 1,
+      "minPrice": 24999,
+      "maxPrice": 24999,
+      "lastFinanced": "2026-09-27",
+      "daysSince": 28,
+      "variants": []
+    },
+    {
+      "brand": "vivo",
+      "model": "Y11",
+      "slug": "vivo-y11",
+      "price": 22500,
+      "units": 1,
+      "minPrice": 22500,
+      "maxPrice": 22500,
+      "lastFinanced": "2026-10-20",
+      "daysSince": 5,
+      "variants": [
+        "4/128"
+      ]
+    },
+    {
+      "brand": "vivo",
+      "model": "Y11 5G",
+      "slug": "vivo-y11-5g",
+      "price": 21999,
+      "units": 1,
+      "minPrice": 21999,
+      "maxPrice": 21999,
+      "lastFinanced": "2026-09-28",
+      "daysSince": 27,
+      "variants": []
+    },
+    {
+      "brand": "Motorola",
+      "model": "G57 Power",
+      "slug": "motorola-g57-power",
+      "price": 21500,
+      "units": 1,
+      "minPrice": 21500,
+      "maxPrice": 21500,
+      "lastFinanced": "2026-10-23",
+      "daysSince": 2,
+      "variants": []
+    },
+    {
+      "brand": "Redmi",
+      "model": "A7 Pro",
+      "slug": "redmi-a7-pro",
+      "price": 18000,
+      "units": 1,
+      "minPrice": 18000,
+      "maxPrice": 18000,
+      "lastFinanced": "2026-10-24",
+      "daysSince": 1,
+      "variants": [
+        "4/128"
+      ]
+    }
+  ],
+  "held": [
+    {
+      "brand": "Samsung",
+      "model": "S24 Ultra",
+      "slug": "samsung-s24-ultra",
+      "price": 40000,
+      "units": 1,
+      "minPrice": 40000,
+      "maxPrice": 40000,
+      "spread": 0,
+      "lastFinanced": "2026-10-22",
+      "daysSince": 3,
+      "variants": [],
+      "seenAs": [
+        "Samsung S24 Ultra"
+      ],
+      "reason": "one sale at ₹40,000 — above ₹35,000 a single transaction is not enough to publish; confirm it was a new device"
+    },
+    {
+      "brand": "OnePlus",
+      "model": "NE221",
+      "slug": "oneplus-ne221",
+      "price": 35000,
+      "units": 1,
+      "minPrice": 35000,
+      "maxPrice": 35000,
+      "spread": 0,
+      "lastFinanced": "2026-09-23",
+      "daysSince": 32,
+      "variants": [],
+      "seenAs": [
+        "One Plus NE221"
+      ],
+      "reason": "last financed 32 days ago (limit 30 for 1 sale) — price is probably stale"
+    },
+    {
+      "brand": "OPPO",
+      "model": "K14",
+      "slug": "oppo-k14",
+      "price": 23999,
+      "units": 1,
+      "minPrice": 23999,
+      "maxPrice": 23999,
+      "spread": 0,
+      "lastFinanced": "2026-09-13",
+      "daysSince": 42,
+      "variants": [],
+      "seenAs": [
+        "Oppo K14"
+      ],
+      "reason": "last financed 42 days ago (limit 30 for 1 sale) — price is probably stale"
+    },
+    {
+      "brand": "OPPO",
+      "model": "A6X",
+      "slug": "oppo-a6x",
+      "price": 20500,
+      "units": 1,
+      "minPrice": 20500,
+      "maxPrice": 20500,
+      "spread": 0,
+      "lastFinanced": "2026-08-27",
+      "daysSince": 59,
+      "variants": [],
+      "seenAs": [
+        "Oppo A6x"
+      ],
+      "reason": "last financed 59 days ago (limit 30 for 1 sale) — price is probably stale"
+    },
+    {
+      "brand": "OPPO",
+      "model": "K14X",
+      "slug": "oppo-k14x",
+      "price": 19000,
+      "units": 1,
+      "minPrice": 19000,
+      "maxPrice": 19000,
+      "spread": 0,
+      "lastFinanced": "2026-09-24",
+      "daysSince": 31,
+      "variants": [],
+      "seenAs": [
+        "Oppo K14x"
+      ],
+      "reason": "last financed 31 days ago (limit 30 for 1 sale) — price is probably stale"
+    },
+    {
+      "brand": "vivo",
+      "model": "Y29",
+      "slug": "vivo-y29",
+      "price": 15000,
+      "units": 2,
+      "minPrice": 15000,
+      "maxPrice": 15000,
+      "spread": 0,
+      "lastFinanced": "2026-07-20",
+      "daysSince": 97,
+      "variants": [],
+      "seenAs": [
+        "Vivo Y29"
+      ],
+      "reason": "last financed 97 days ago (limit 90 for 2 sales) — price is probably stale"
+    },
+    {
+      "brand": "AI+",
+      "model": "Nova 2 5G",
+      "slug": "ai-plus-nova-2-5g",
+      "price": 14999,
+      "units": 1,
+      "minPrice": 14999,
+      "maxPrice": 14999,
+      "spread": 0,
+      "lastFinanced": "2026-08-24",
+      "daysSince": 62,
+      "variants": [],
+      "seenAs": [
+        "Ai plus Nova 2 5g"
+      ],
+      "reason": "last financed 62 days ago (limit 30 for 1 sale) — price is probably stale"
+    }
+  ],
+  "rejected": [],
+  "review": [
+    {
+      "a": "OPPO A6X 5G (₹24249)",
+      "b": "OPPO A6X (₹20500)",
+      "note": "same phone recorded with and without a network suffix?"
+    },
+    {
+      "a": "vivo Y11 (₹22500)",
+      "b": "vivo Y11 5G (₹21999)",
+      "note": "same phone recorded with and without a network suffix?"
+    }
+  ]
+}

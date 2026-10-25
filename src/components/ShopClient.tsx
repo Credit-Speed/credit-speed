@@ -3,17 +3,24 @@
 import { useMemo, useState } from "react";
 import {
   PHONES, BRANDS, TENURES, DEFAULT_TENURE, DOWN_PAYMENT_PCT, ANNUAL_RATE_PCT,
-  quote, type Phone,
+  PRICES_AS_AT, quote, type Phone,
 } from "@/data/phones";
 
 const rs = (n: number) => "₹" + new Intl.NumberFormat("en-IN").format(n);
 
-const BUDGETS = [
+const ALL_BUDGETS = [
   { label: "Under ₹10,000", min: 0, max: 9999 },
   { label: "₹10,000 – ₹15,000", min: 10000, max: 14999 },
   { label: "₹15,000 – ₹25,000", min: 15000, max: 24999 },
   { label: "₹25,000+", min: 25000, max: Infinity },
 ];
+
+// Only show a band we can actually fill. The catalogue is generated from the
+// loan book, so a hardcoded band can easily hold nothing — and a filter that
+// returns an empty grid reads as a broken site rather than an empty segment.
+const BUDGETS = ALL_BUDGETS.filter((b) =>
+  PHONES.some((p) => p.price >= b.min && p.price <= b.max)
+);
 
 /**
  * The EMI shop.
@@ -104,6 +111,12 @@ export default function ShopClient() {
         ))}
       </div>
 
+      <p className="text-white/35 text-xs mb-6">
+        Prices are what customers actually paid at our partner shops, last
+        updated {new Date(PRICES_AS_AT).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}.
+        Stock and price vary by shop — confirm at the counter before you buy.
+      </p>
+
       {/* ── Catalogue ── */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {shown.map((p) => {
@@ -119,7 +132,9 @@ export default function ShopClient() {
             >
               <p className="text-white/40 text-[11px] uppercase tracking-widest">{p.brand}</p>
               <p className="text-white font-semibold text-[15px] mt-1">{p.model}</p>
-              <p className="text-white/45 text-[13px] mt-1">{p.highlight}</p>
+              {p.highlight && (
+                <p className="text-white/45 text-[13px] mt-1">{p.highlight}</p>
+              )}
               <div className="flex items-baseline gap-2 mt-4">
                 <span className="font-display text-gold-400 text-xl tracking-tight">{rs(emi)}</span>
                 <span className="text-white/40 text-xs">/ month</span>
