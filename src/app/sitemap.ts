@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import shopData from "@/data/partner-shops.json";
+import { SHOP_LIVE } from "@/data/phones";
 
 const SITE = "https://creditspeed.in";
 
@@ -32,7 +33,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.8,
       })
     ),
-    { url: `${SITE}/shop`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    // Listed only when it has handsets and prices to show.
+    ...(SHOP_LIVE
+      ? [{ url: `${SITE}/shop`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.9 }]
+      : []),
     { url: `${SITE}/hi`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     // The guides answer what people search before they are ready to buy, so
     // they rank for different queries than the store pages and are worth

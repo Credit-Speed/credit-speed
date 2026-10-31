@@ -20,6 +20,22 @@
 
 import data from "./phone-prices.json";
 
+/**
+ * Whether the shop publishes handsets and instalments.
+ *
+ * Held at false deliberately. The model list and pricing are being reworked
+ * around the loan system, which will supply brand and model directly instead
+ * of them being typed at a counter — so anything published from the current
+ * list would be replaced within weeks.
+ *
+ * Nothing below is deleted. Flip this to true, re-run
+ * scripts/sync-phone-prices.mjs, and the catalogue comes back exactly as it
+ * was. While false, /shop shows a coming-soon page and stays out of both the
+ * sitemap and the index: a thin page ranking for "mobile EMI Kanpur" earns a
+ * visit we cannot yet serve, which is worse than not ranking.
+ */
+export const SHOP_LIVE = false;
+
 export type Phone = {
   brand: string;
   model: string;
