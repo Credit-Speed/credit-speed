@@ -24,7 +24,39 @@ export type Shop = {
  * address — a store locator exists so a customer can walk in, not so the
  * merchant list can be scraped and called.
  */
-export function ShopGrid({ shops }: { shops: Shop[] }) {
+/**
+ * A Google Maps link for a shop.
+ *
+ * Where a field officer has logged a visit we send the exact coordinate, which
+ * is ground truth — someone stood there. Otherwise we send the shop name with
+ * its locality and PIN and let Google find it: most mobile shops list
+ * themselves, so the customer usually lands on the business itself rather than
+ * on a point we calculated.
+ *
+ * Note what is NOT in this URL: the street address. It is deliberately absent
+ * from this component, and putting it in a link would publish it just as
+ * surely as printing it. The query carries only what the page already shows.
+ *
+ * A link rather than a pin on our own map is also the licence-clean route:
+ * Google's terms do not permit displaying Google-derived coordinates on a
+ * non-Google map, and ours is Leaflet.
+ */
+export function mapsUrl(s: Pick<Shop, "name" | "city" | "locality" | "pin" | "lat" | "lng">): string {
+  const query =
+    s.lat != null && s.lng != null
+      ? `${s.lat},${s.lng}`
+      : [s.name, s.locality, s.city, s.pin].filter(Boolean).join(" ");
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+export function ShopGrid({
+  shops,
+  directionsLabel = "Directions",
+}: {
+  shops: Shop[];
+  /** Overridden on the Hindi pages. */
+  directionsLabel?: string;
+}) {
   return (
     <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-3 list-none p-0 m-0">
       {shops.map((s, i) => (
@@ -40,6 +72,15 @@ export function ShopGrid({ shops }: { shops: Shop[] }) {
               {s.pin ? ` ${s.pin}` : ""}
             </span>
           )}
+          <a
+            href={mapsUrl(s)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${directionsLabel}: ${s.name}`}
+            className="text-gold-400/80 hover:text-gold-300 ml-2 whitespace-nowrap"
+          >
+            {directionsLabel} ↗
+          </a>
         </li>
       ))}
     </ul>

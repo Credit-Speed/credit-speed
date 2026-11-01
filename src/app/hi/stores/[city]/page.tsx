@@ -162,7 +162,7 @@ export default async function HindiCityStoresPage({
             {data.generated_at} तक अपडेटेड। अगर आपकी नज़दीकी दुकान यहाँ नहीं दिख रही, तो
             दुकानदार से कहिए कि वो जुड़ जाएं — आमतौर पर एक-दो दिन में हो जाता है।
           </p>
-          <ShopGrid shops={shops} />
+          <ShopGrid shops={shops} directionsLabel="रास्ता देखें" />
         </div>
       </section>
 

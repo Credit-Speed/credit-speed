@@ -105,6 +105,7 @@ export default function StoreMap({
             <div style="font-weight:bold;color:#0A1628;font-size:13px;">${escapeHtml(shop.name)}</div>
             ${shop.address ? `<div style="font-size:11px;color:#6B7280;margin-top:4px;line-height:1.4;">${escapeHtml(shop.address)}</div>` : ""}
             ${shop.distanceKm !== undefined ? `<div style="font-size:11px;color:#D4A853;margin-top:4px;font-weight:600;">${shop.distanceKm.toFixed(1)} km away</div>` : ""}
+            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${shop.lat},${shop.lng}`)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:6px;font-size:11px;font-weight:600;color:#0A1628;background:#D4A853;padding:4px 10px;border-radius:999px;text-decoration:none;">Directions &#8599;</a>
           </div>`
         );
 
