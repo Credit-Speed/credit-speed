@@ -26,7 +26,7 @@ if (!url || !key) {
 }
 
 const res = await fetch(
-  `${url}/rest/v1/retailers?select=id,shop_name,city,locality,pin_code,oroboro_code,status,onboarding_status&limit=2000`,
+  `${url}/rest/v1/retailers?select=id,shop_name,city,locality,pin_code,oroboro_code,status,onboarding_status,is_test&limit=2000`,
   { headers: { apikey: key, Authorization: `Bearer ${key}` } }
 );
 if (!res.ok) {
@@ -78,6 +78,9 @@ const shops = rows
   .filter(
     (r) =>
       r.status === "enabled" &&
+      // Partner UAT merchants hold a real Oroboro code and would otherwise
+      // pass every other test here and be published as a real shop.
+      !r.is_test &&
       (r.onboarding_status === "approved" || r.onboarding_status === null) &&
       String(r.oroboro_code || "").trim()
   )
