@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import ChatWidget from "@/components/ChatWidget";
+import ChatWidgetGate from "@/components/ChatWidgetGate";
 import StructuredData from "@/components/StructuredData";
 
 const SITE = "https://creditspeed.in";
@@ -91,7 +91,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased grain">
         <ThemeProvider>{children}</ThemeProvider>
-        <ChatWidget />
+        <ChatWidgetGate />
       </body>
     </html>
   );

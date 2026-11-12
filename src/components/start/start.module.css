@@ -1,0 +1,1002 @@
+/* /start — one dark look, on purpose: reflections on the 3D phone need it.
+   Layout: a fixed 3D stage behind five scroll chapters; two actions docked
+   to the bottom edge; a bottom sheet (a centred card on wide screens) for
+   the form. Nothing here depends on the site's light/dark theme. */
+
+.root {
+  --ink: #050b17;
+  --ink-2: #0a1628;
+  --ink-3: #0e1d36;
+  --glow: #12284b;
+  --line: #2a3a58;
+  /* Borders of things you tap or type in: 3.3:1 against the sheet. */
+  --line-ctl: #5a6a8c;
+  --paper: #f4f1e8;
+  --mist: #c3cbda;
+  --gold: #d4a853;
+  --gold-hi: #ebcf8b;
+  --danger: #ffb4a8;
+  --display: "CS Anek", "Noto Sans Devanagari", system-ui, sans-serif;
+  --body: "CS Hind", "Noto Sans Devanagari", system-ui, sans-serif;
+  --dock-h: 7.25rem;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--ink);
+  color: var(--paper);
+  color-scheme: dark;
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: clip;
+}
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
+}
+
+/* The glow the phone sits in. Fixed, so it costs nothing while scrolling. */
+.root::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(70% 46% at 50% 30%, var(--glow) 0%, var(--ink) 72%);
+}
+
+.progress {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  z-index: 6;
+  pointer-events: none;
+}
+.progress span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-hi));
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* ── The stage ─────────────────────────────────────────────────────── */
+.stage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* The tall viewport, so the phone does not jump when the address bar hides. */
+  height: 100vh;
+  height: 100lvh;
+  display: block;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+.root[data-gl="on"] .stage {
+  opacity: 1;
+}
+
+.flat {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  top: 7vh;
+  left: 50%;
+  width: min(36vw, 11rem);
+  aspect-ratio: 72 / 152;
+  padding: 0.3rem;
+  border-radius: 1.75rem;
+  background: linear-gradient(135deg, var(--gold-hi), #a37822 45%, var(--gold-hi));
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.5), 0 0 5rem rgba(212, 168, 83, 0.18);
+  transform: translateX(-50%) rotate(-4deg);
+  pointer-events: none;
+  animation: floaty 6s ease-in-out infinite;
+}
+.root[data-gl="off"] .flat {
+  display: block;
+}
+.flatScreen {
+  height: 100%;
+  border-radius: 1.5rem;
+  background: linear-gradient(180deg, #102445, var(--ink-2) 55%, var(--ink));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+}
+.flatBrand {
+  font: 700 0.8125rem/1 var(--display);
+  color: var(--gold-hi);
+  margin-bottom: 0.6rem;
+}
+.flatRing {
+  display: grid;
+  place-items: center;
+  width: 4.75rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 3px solid var(--gold);
+  font: 800 1.5rem/1 var(--display);
+  margin-bottom: 0.6rem;
+}
+.flatLine {
+  font: 800 1.125rem/1.2 var(--display);
+}
+.flatSub {
+  font: 500 0.8125rem/1.2 var(--body);
+  color: var(--gold-hi);
+}
+
+/* ── The story ─────────────────────────────────────────────────────── */
+.top {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  padding: calc(1rem + env(safe-area-inset-top, 0px)) var(--gutter-r) 0 var(--gutter-l);
+}
+.brand {
+  font: 700 1.0625rem/1 var(--display);
+  letter-spacing: 0.01em;
+  color: var(--gold-hi);
+  text-decoration: none;
+}
+.brand:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.story {
+  position: relative;
+  z-index: 2;
+  padding-left: var(--gutter-l);
+  padding-right: var(--gutter-r);
+  /* Up-and-down scrolls the page; side-to-side is ours, to spin the phone. */
+  touch-action: pan-y pinch-zoom;
+}
+.ch {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  padding-block: 1rem calc(var(--dock-h) + 1rem);
+}
+.copy {
+  /* Edge to edge on a phone, so the shade behind the words has no visible side. */
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-block: 3rem 0.25rem;
+  margin-left: calc(-1 * var(--gutter-l));
+  margin-right: calc(-1 * var(--gutter-r));
+  padding-left: var(--gutter-l);
+  padding-right: var(--gutter-r);
+  background: linear-gradient(180deg, rgba(5, 11, 23, 0) 0, rgba(5, 11, 23, 0.9) 3.5rem);
+}
+.copy > * {
+  max-width: 30rem;
+}
+.eyebrow {
+  font: 600 0.8125rem/1.2 var(--body);
+  letter-spacing: 0.08em;
+  color: var(--gold-hi);
+  margin: 0 0 0.75rem;
+}
+.step {
+  display: inline-block;
+  font: 700 0.875rem/1 var(--display);
+  color: var(--ink);
+  background: var(--gold);
+  border-radius: 999px;
+  padding: 0.4rem 0.7rem 0.3rem;
+  margin: 0 0 0.75rem;
+}
+.copy h1,
+.copy h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  text-wrap: balance;
+  margin: 0;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+.copy h1 {
+  font-size: clamp(2.25rem, 9.5vw, 4rem);
+  line-height: 1.12;
+}
+.copy h2 {
+  font-size: clamp(1.75rem, 7.2vw, 2.75rem);
+  line-height: 1.18;
+}
+.copy h1 em,
+.copy h2 em {
+  font-style: normal;
+  color: var(--gold);
+}
+.en {
+  font: 500 1rem/1.4 var(--body);
+  color: var(--mist);
+  margin: 0.35rem 0 0;
+}
+.lede {
+  font-size: 1.0625rem;
+  margin: 0.7rem 0 0;
+  max-width: 34ch;
+}
+.ledeEn {
+  font-size: 0.9375rem;
+  max-width: 40ch;
+}
+.hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font: 500 0.875rem/1 var(--body);
+  color: var(--mist);
+  margin: 1rem 0 0;
+}
+.hint svg {
+  animation: nudge 1.6s ease-in-out infinite;
+}
+.legal {
+  /* A snap point of its own, so the small print can always be scrolled to. */
+  scroll-snap-align: end;
+  position: relative;
+  z-index: 2;
+  padding: 0.5rem var(--gutter-r) calc(var(--dock-h) + 1.5rem) var(--gutter-l);
+  background: linear-gradient(180deg, rgba(5, 11, 23, 0) 0, rgba(5, 11, 23, 0.92) 2rem);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--mist);
+}
+.legal p {
+  margin: 0 0 0.6rem;
+  max-width: 52ch;
+}
+.legal a {
+  color: var(--gold-hi);
+  text-underline-offset: 3px;
+}
+
+/* The words of each chapter arrive one line after another. Only once the
+   page's script is running: without it, everything simply stays visible. */
+.root[data-live] .copy > * {
+  opacity: 0;
+  transform: translateY(1.1rem);
+  transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.root[data-live] .ch[data-on] .copy > * {
+  opacity: 1;
+  transform: none;
+}
+.root[data-live] .ch[data-on] .copy > *:nth-child(2) { transition-delay: 0.05s; }
+.root[data-live] .ch[data-on] .copy > *:nth-child(3) { transition-delay: 0.1s; }
+.root[data-live] .ch[data-on] .copy > *:nth-child(4) { transition-delay: 0.16s; }
+.root[data-live] .ch[data-on] .copy > *:nth-child(5) { transition-delay: 0.22s; }
+.root[data-live] .ch[data-on] .copy > *:nth-child(n + 6) { transition-delay: 0.28s; }
+
+/* While a form is open the story steps back, so nothing peeks over the sheet. */
+.story,
+.dots,
+.legal {
+  transition: opacity 0.25s ease;
+}
+.root[data-sheet] .story,
+.root[data-sheet] .dots,
+.root[data-sheet] .legal {
+  opacity: 0;
+}
+
+.dots {
+  position: fixed;
+  z-index: 3;
+  right: max(10px, env(safe-area-inset-right, 0px));
+  top: 38%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+.dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  transition: height 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), background-color 0.35s ease;
+}
+.dots span[data-on] {
+  height: 22px;
+  background: var(--gold);
+}
+
+/* ── The dock ──────────────────────────────────────────────────────── */
+.dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  padding: 0.75rem var(--gutter-r) calc(0.75rem + env(safe-area-inset-bottom, 0px)) var(--gutter-l);
+  background: var(--ink-2);
+  border-top: 1px solid var(--line);
+}
+.dockRow {
+  display: flex;
+  gap: 0.625rem;
+  max-width: 34rem;
+  margin-inline: auto;
+}
+.dockNote {
+  max-width: 34rem;
+  margin: 0 auto 0.6rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--gold-hi);
+  text-align: center;
+}
+.dockNote span {
+  color: var(--mist);
+}
+.btn {
+  position: relative;
+  overflow: hidden;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 3.5rem;
+  border-radius: 0.875rem;
+  cursor: pointer;
+  font: 700 1.0625rem/1.15 var(--display);
+  padding: 0.55rem 0.5rem 0.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  border: 1.5px solid var(--gold);
+  color: var(--paper);
+  background: transparent;
+  text-decoration: none;
+  text-align: center;
+  transition: transform 0.16s ease, box-shadow 0.4s ease;
+}
+.btn small {
+  font: 500 0.8125rem/1.1 var(--body);
+  color: var(--mist);
+}
+.btn:active {
+  transform: scale(0.965);
+}
+.btn:focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: 2px;
+}
+.primary {
+  background: var(--gold);
+  color: var(--ink);
+}
+.primary small {
+  color: var(--ink);
+}
+/* A slow band of light across the main button. */
+.primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 62%);
+  transform: translateX(-120%);
+  animation: sweep 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+/* At the last chapter the words point down here; the button answers. */
+.dock[data-last] .primary {
+  box-shadow: 0 0 0 4px rgba(212, 168, 83, 0.22), 0 0 2.25rem rgba(212, 168, 83, 0.45);
+}
+
+/* ── The sheet ─────────────────────────────────────────────────────── */
+.sheet {
+  position: fixed;
+  top: auto;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100%;
+  max-height: 90vh;
+  max-height: min(90dvh, 46rem);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 1.5rem 1.5rem 0 0;
+  background: var(--ink-2);
+  color: var(--paper);
+  font-family: var(--body);
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  color-scheme: dark;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.sheet::backdrop {
+  background: rgba(3, 7, 16, 0.5);
+}
+.sheet[open] {
+  animation: sheetUp 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.sheet[open]::backdrop {
+  animation: fadeIn 0.3s ease;
+}
+.sheet[data-closing] {
+  animation: sheetDown 0.22s ease-in forwards;
+}
+.sheetInner {
+  max-width: 34rem;
+  margin-inline: auto;
+  padding: 0.5rem max(20px, env(safe-area-inset-right, 0px)) calc(1.25rem + env(safe-area-inset-bottom, 0px))
+    max(20px, env(safe-area-inset-left, 0px));
+}
+.sheetBar {
+  display: grid;
+  grid-template-columns: 2.75rem 1fr 2.75rem;
+  align-items: center;
+  margin-inline: -8px;
+}
+.grab {
+  justify-self: center;
+  width: 2.5rem;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line);
+}
+.iconBtn {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--mist);
+  cursor: pointer;
+}
+.iconBtn:active {
+  background: var(--ink-3);
+}
+.iconBtn:focus-visible,
+.choice:focus-visible,
+.chip:focus-visible,
+.submit:focus-visible,
+.linkBtn:focus-visible,
+.textBtn:focus-visible,
+.waLink:focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: 2px;
+}
+.sheetBody {
+  animation: stepIn 0.36s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.sheetTitle {
+  font: 800 1.625rem/1.22 var(--display);
+  text-wrap: balance;
+  margin: 0.25rem 0 0;
+  color: var(--paper);
+}
+.sheetTitle:focus {
+  outline: none;
+}
+.sheetEn {
+  font: 500 1rem/1.4 var(--body);
+  color: var(--mist);
+  margin: 0.3rem 0 0;
+}
+
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+.choice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 4.5rem;
+  padding: 0.9rem 1rem;
+  text-align: left;
+  border-radius: 1rem;
+  border: 1.5px solid var(--line-ctl);
+  background: var(--ink-3);
+  color: var(--paper);
+  font: 700 1.125rem/1.3 var(--display);
+  cursor: pointer;
+  transition: transform 0.16s ease, border-color 0.2s ease;
+}
+.choice small {
+  display: block;
+  font: 500 0.9375rem/1.35 var(--body);
+  color: var(--mist);
+  margin-top: 0.2rem;
+}
+.choice svg {
+  flex: none;
+  color: var(--gold);
+}
+.choice:active {
+  transform: scale(0.98);
+}
+.choice[data-primary] {
+  border-color: var(--gold);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin-top: 1.25rem;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.field > label,
+.field > legend {
+  font: 600 1rem/1.3 var(--body);
+  color: var(--paper);
+  padding: 0;
+}
+.field > legend {
+  margin-bottom: 0.45rem;
+}
+.field > label span,
+.field > legend span {
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--mist);
+  margin-left: 0.3rem;
+}
+.input {
+  width: 100%;
+  min-width: 0;
+  min-height: 3.25rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.875rem;
+  border: 1.5px solid var(--line-ctl);
+  background: var(--ink-3);
+  color: var(--paper);
+  /* 17px: below 16px iOS zooms the page on focus. */
+  font: 500 1.0625rem/1.3 var(--body);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.input::placeholder {
+  color: #8693ab;
+}
+.input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.28);
+}
+.input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+.phoneRow {
+  display: flex;
+  align-items: stretch;
+  border-radius: 0.875rem;
+  border: 1.5px solid var(--line-ctl);
+  background: var(--ink-3);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.phoneRow:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.28);
+}
+.phoneRow[data-invalid] {
+  border-color: var(--danger);
+}
+.phoneRow > span {
+  display: grid;
+  place-items: center;
+  padding: 0 0.2rem 0 0.9rem;
+  font: 600 1.0625rem/1 var(--body);
+  color: var(--mist);
+}
+.phoneRow .input {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  letter-spacing: 0.04em;
+  padding-left: 0.5rem;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.chip {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--line-ctl);
+  background: transparent;
+  color: var(--paper);
+  font: 600 0.9375rem/1.2 var(--body);
+  cursor: pointer;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.16s ease;
+}
+.chip span {
+  font-weight: 400;
+  font-size: 0.8125rem;
+  color: var(--mist);
+  margin-left: 0.25rem;
+}
+.chip:active {
+  transform: scale(0.96);
+}
+.chip[aria-pressed="true"] {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--ink);
+}
+.chip[aria-pressed="true"] span {
+  color: var(--ink);
+}
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font: 400 0.9375rem/1.5 var(--body);
+  color: var(--paper);
+  cursor: pointer;
+}
+.consent input {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.1rem 0 0;
+  accent-color: var(--gold);
+}
+.consent span span {
+  color: var(--mist);
+}
+.consent a,
+.note a {
+  color: var(--gold-hi);
+  text-underline-offset: 3px;
+}
+.error {
+  margin: 0;
+  font: 500 0.875rem/1.4 var(--body);
+  color: var(--danger);
+}
+.trap {
+  position: absolute;
+  left: -200vw;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.failure {
+  border: 1.5px solid var(--danger);
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  font-size: 0.9375rem;
+}
+.failure p {
+  margin: 0 0 0.4rem;
+}
+.failure p[lang="en"] {
+  color: var(--mist);
+}
+.waLink {
+  display: inline-block;
+  margin-top: 0.3rem;
+  font-weight: 600;
+  color: var(--gold-hi);
+  text-underline-offset: 3px;
+}
+.submit {
+  min-height: 3.75rem;
+  border: 0;
+  border-radius: 0.875rem;
+  background: var(--gold);
+  color: var(--ink);
+  font: 700 1.1875rem/1.15 var(--display);
+  padding: 0.6rem 1rem 0.45rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  cursor: pointer;
+  transition: transform 0.16s ease, opacity 0.2s ease;
+}
+.submit small {
+  font: 500 0.8125rem/1.1 var(--body);
+}
+.submit:active {
+  transform: scale(0.98);
+}
+.submit[data-busy] {
+  opacity: 0.7;
+  cursor: progress;
+}
+.assure {
+  margin: 0.9rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--mist);
+}
+.form .assure {
+  margin-top: 0;
+}
+
+.para {
+  margin: 1rem 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+.para[lang="en"] {
+  margin-top: 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--mist);
+}
+.note {
+  margin: 1rem 0 0;
+  padding: 0.8rem 1rem;
+  border-radius: 0.875rem;
+  background: var(--ink-3);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.note span {
+  color: var(--mist);
+}
+.steps {
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 2.75rem;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--ink);
+  font: 800 1rem/1 var(--display);
+}
+.steps li span {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.9375rem;
+  color: var(--mist);
+}
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+.linkBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  min-height: 3.5rem;
+  padding: 0.55rem 1rem 0.4rem;
+  border-radius: 0.875rem;
+  border: 1.5px solid var(--gold);
+  background: transparent;
+  color: var(--paper);
+  font: 700 1.0625rem/1.15 var(--display);
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+.linkBtn small {
+  font: 500 0.8125rem/1.1 var(--body);
+  color: var(--mist);
+}
+.textBtn {
+  display: block;
+  width: 100%;
+  min-height: 3rem;
+  margin-top: 0.5rem;
+  border: 0;
+  background: transparent;
+  color: var(--gold-hi);
+  font: 600 1rem/1.3 var(--body);
+  cursor: pointer;
+}
+.textBtn span {
+  color: var(--mist);
+  font-weight: 400;
+}
+.done {
+  text-align: center;
+  padding-top: 0.25rem;
+}
+.done .links {
+  text-align: left;
+}
+.tick {
+  margin: 0 auto 0.5rem;
+  display: block;
+}
+.tick circle {
+  fill: var(--gold);
+  transform-origin: center;
+  animation: pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+.tick path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: drawTick 0.45s ease-out 0.3s forwards;
+}
+
+/* ── Wide screens: words left, phone right, the form as a card ─────── */
+@media (min-width: 860px) {
+  .story {
+    max-width: 72rem;
+    margin-inline: auto;
+  }
+  .ch {
+    align-items: center;
+    padding-block: 2rem calc(var(--dock-h) + 2rem);
+  }
+  .copy {
+    flex: 0 1 30rem;
+    background: none;
+    margin-inline: 0;
+    padding-inline: 0;
+    padding-block: 0;
+  }
+  .top,
+  .legal {
+    max-width: 72rem;
+    margin-inline: auto;
+  }
+  .legal {
+    background: none;
+  }
+  .flat {
+    left: 72%;
+    top: 16vh;
+    width: 13rem;
+  }
+  .dots {
+    top: 44%;
+    right: 1.5rem;
+  }
+  .sheet {
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: max(4vw, calc(50vw - 34rem));
+    width: min(30rem, 92vw);
+    height: fit-content;
+    max-height: min(86dvh, 46rem);
+    margin: auto 0;
+    border: 1px solid var(--line);
+    border-radius: 1.5rem;
+  }
+  .sheet[open] {
+    animation: cardIn 0.36s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .sheet[data-closing] {
+    animation: fadeOut 0.2s ease-in forwards;
+  }
+  .grab {
+    visibility: hidden;
+  }
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateX(-50%) rotate(-4deg) translateY(0); }
+  50% { transform: translateX(-50%) rotate(-4deg) translateY(-0.6rem); }
+}
+@keyframes nudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(0.25rem); }
+}
+@keyframes sweep {
+  0%, 62% { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}
+@keyframes sheetDown {
+  from { transform: none; }
+  to { transform: translateY(100%); }
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(1.5rem) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes stepIn {
+  from { opacity: 0; transform: translateY(0.75rem); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+@keyframes drawTick {
+  to { stroke-dashoffset: 0; }
+}
+
+/* People who asked their phone for less motion get the page without it. */
+@media (prefers-reduced-motion: reduce) {
+  .root *,
+  .root *::before,
+  .root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+  .primary::after {
+    display: none;
+  }
+  .tick path {
+    stroke-dashoffset: 0;
+  }
+}
