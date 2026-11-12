@@ -1,61 +1,31 @@
 /**
- * POST /api/lead — capture a chatbot lead into the shared Supabase `leads` table.
- * Uses the PUBLIC anon key only (RLS allows anon INSERT-only on scoped columns).
+ * POST /api/lead — the website assistant's "leave your details" form, and the
+ * shop page's enquiry form.
+ *
+ * Goes through the same keyed, rate-limited database function as the landing
+ * page (submit_lead_public, migration 025) and is recorded as `chatbot`.
+ * It used to insert into `leads` directly with the public key, which anyone
+ * could also do from outside, without limit; migration 026 closes that.
  * Consent is required (DPDP). No service-role key on the marketing site.
  */
 import { NextResponse } from "next/server";
+import { parseAssistantLead } from "@/lib/lead-intake";
+import { outcomeResponse, readLeadRequest, submitLead } from "@/lib/lead-intake-server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const onlyDigits = (s: string) => (s || "").replace(/\D/g, "");
+const NO_STORE = { "Cache-Control": "no-store" };
 
 export async function POST(req: Request) {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !anon) {
-    return NextResponse.json({ ok: false, error: "Server not configured" }, { status: 500 });
-  }
+  const read = await readLeadRequest(req);
+  if (!read.ok)
+    return NextResponse.json({ ok: false, error: read.error }, { status: read.status, headers: NO_STORE });
 
-  const b = await req.json().catch(() => ({}));
-  const lead_type = b?.lead_type === "retailer" ? "retailer" : "customer";
-  const phone = onlyDigits(String(b?.phone || ""));
-  const consent = b?.consent === true;
+  const parsed = parseAssistantLead(read.body);
+  if (!parsed.ok)
+    return NextResponse.json({ ok: false, error: parsed.error }, { status: 400, headers: NO_STORE });
 
-  if (phone.length < 10) {
-    return NextResponse.json({ ok: false, error: "A valid phone number is required." }, { status: 400 });
-  }
-  if (!consent) {
-    return NextResponse.json({ ok: false, error: "Consent is required to save your details." }, { status: 400 });
-  }
-
-  const row = {
-    lead_type,
-    name: b?.name ? String(b.name).slice(0, 120) : null,
-    phone: phone.slice(-10),
-    city: b?.city ? String(b.city).slice(0, 80) : null,
-    shop_name: b?.shop_name ? String(b.shop_name).slice(0, 120) : null,
-    source: "chatbot",
-    intent: b?.intent ? String(b.intent).slice(0, 500) : null,
-    consent_at: new Date().toISOString(),
-  };
-
-  try {
-    const r = await fetch(`${url}/rest/v1/leads`, {
-      method: "POST",
-      headers: {
-        apikey: anon,
-        Authorization: `Bearer ${anon}`,
-        "Content-Type": "application/json",
-        Prefer: "return=minimal",
-      },
-      body: JSON.stringify(row),
-    });
-    if (!r.ok) {
-      return NextResponse.json({ ok: false, error: "Could not save. Please try again." }, { status: 502 });
-    }
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ ok: false, error: "Network error. Please try again." }, { status: 502 });
-  }
+  const { status, body } = outcomeResponse(await submitLead(parsed.lead, "chatbot", req));
+  return NextResponse.json(body, { status, headers: NO_STORE });
 }
