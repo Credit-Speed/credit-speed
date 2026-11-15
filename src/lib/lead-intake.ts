@@ -19,6 +19,9 @@ export type Buying = (typeof BUYING_OPTIONS)[number]["value"];
 
 export type LeadType = "customer" | "retailer";
 
+/** "Which phone do you want?" on the landing page. */
+export const WANTS_MAX = 150;
+
 /** What the database function receives, minus the key and the visitor hash. */
 export type PublicLead = {
   lead_type: LeadType;
@@ -71,6 +74,29 @@ export function cleanText(raw: unknown, max: number): string | null {
   return s || null;
 }
 
+/** Runs of ten or more digits, allowing one space, hyphen or dot between digits. */
+const DIGIT_RUN = /\d(?:[ .-]?\d){9,}/g;
+/** A PAN: five letters, four digits, one letter. */
+const PAN = /\b[A-Za-z]{5}\d{4}[A-Za-z]\b/g;
+
+/**
+ * Blank out anything in free text that looks like an Aadhaar or PAN number,
+ * or a phone number. We never collect those at lead stage, and people do
+ * type them into "anything else?" boxes. A price or a price range
+ * ("10000-15000") is left alone: a 10-digit run is treated as a phone only
+ * when it starts 6-9, as an Indian mobile does.
+ */
+export function maskIdentifiers(text: string): string {
+  return text
+    .replace(DIGIT_RUN, (run) => {
+      const d = run.replace(/\D/g, "");
+      const sensitive =
+        (d.length === 10 && /^[6-9]/.test(d)) || (d.length === 11 && d.startsWith("0")) || d.length >= 12;
+      return sensitive ? "[number removed]" : run;
+    })
+    .replace(PAN, "[number removed]");
+}
+
 /**
  * The ad a visitor came from: `?src=ig-emi`. It ends up in front of staff and
  * in the audit log, so it is held to lowercase letters, digits and hyphens —
@@ -93,12 +119,14 @@ function hasLetters(s: string | null): s is string {
 
 /**
  * The landing page form. `who` picks the branch:
- *   customer — wants a call about price and EMI. `buying` is optional.
+ *   customer — wants a call about price and EMI. `buying` and `wants` (which
+ *              phone, in their words) are optional.
  *   shop     — owns a mobile shop and has said they hold a GST registration.
  *              A shop owner without GST is turned away by the page and never
  *              reaches the server; if one arrives anyway it is refused here.
- * The note staff read (`intent`) is assembled from these fixed choices. No
- * free text from the visitor goes into it.
+ * The note staff read (`intent`) is assembled from these fixed choices plus
+ * `wants`, the only free text from the visitor: capped at 150 characters,
+ * cleaned, and with anything like an Aadhaar, PAN or phone number blanked.
  */
 export function parseLandingLead(body: unknown): ParseResult {
   if (!body || typeof body !== "object" || Array.isArray(body))
@@ -134,9 +162,16 @@ export function parseLandingLead(body: unknown): ParseResult {
 
   const campaign = cleanCampaign(b.src);
   const buying = BUYING_OPTIONS.find((o) => o.value === b.buying);
+  const wantsRaw = isShop ? null : cleanText(b.wants, WANTS_MAX);
+  const wants = wantsRaw ? maskIdentifiers(wantsRaw) : null;
   const parts = isShop
     ? ["Landing page", "shop owner, says they have GST", "wants to become a partner shop"]
-    : ["Landing page", "wants a call about phone price and EMI", ...(buying ? [buying.note] : [])];
+    : [
+        "Landing page",
+        "wants a call about phone price and EMI",
+        ...(buying ? [buying.note] : []),
+        ...(wants ? [`wants: ${wants}`] : []),
+      ];
   if (campaign) parts.push(`ad: ${campaign}`);
 
   return {
@@ -178,7 +213,10 @@ export function parseAssistantLead(body: unknown): ParseResult {
       name: cleanText(b.name, 120),
       city: cleanText(b.city, 80),
       shop_name: lead_type === "retailer" ? cleanText(b.shop_name, 120) : null,
-      intent: cleanText(b.intent, 500),
+      intent: (() => {
+        const t = cleanText(b.intent, 500);
+        return t ? maskIdentifiers(t) : null;
+      })(),
       campaign: null,
     },
   };

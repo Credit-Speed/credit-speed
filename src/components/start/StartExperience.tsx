@@ -14,7 +14,7 @@
  * nothing about them is sent or stored.
  */
 import { useCallback, useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { BUYING_OPTIONS, cleanCampaign, normaliseIndianMobile, type Buying, type LeadField } from "@/lib/lead-intake";
+import { BUYING_OPTIONS, WANTS_MAX, cleanCampaign, normaliseIndianMobile, type Buying, type LeadField } from "@/lib/lead-intake";
 import type { PhoneScene, SceneMode } from "./phone-scene";
 import s from "./start.module.css";
 
@@ -81,7 +81,16 @@ const CITY_CHIPS = [
   { hi: "कानपुर", value: "Kanpur" },
 ];
 
-const EMPTY = { shop_name: "", name: "", city: "", phone: "", consent: false, buying: null as Buying | null, hp_extra: "" };
+const EMPTY = {
+  shop_name: "",
+  name: "",
+  city: "",
+  phone: "",
+  consent: false,
+  buying: null as Buying | null,
+  wants: "",
+  hp_extra: "",
+};
 
 /** Saved only when the Privacy Policy link is tapped, so an in-app browser that opens it in the same view does not lose the form. */
 const DRAFT_KEY = "cs-start-draft";
@@ -493,6 +502,7 @@ export default function StartExperience({ fonts, helpline, helplineWa }: Props) 
           city: form.city,
           phone: form.phone,
           buying: who === "customer" ? (form.buying ?? undefined) : undefined,
+          wants: who === "customer" && form.wants.trim() ? form.wants : undefined,
           consent: true,
           src: campaignRef.current ?? undefined,
           hp_extra: form.hp_extra,
@@ -609,6 +619,25 @@ export default function StartExperience({ fonts, helpline, helplineWa }: Props) 
             ))}
           </div>
         </fieldset>
+      )}
+
+      {who === "customer" && (
+        <div className={s.field}>
+          <label htmlFor={`${uid}-wants`}>
+            कौन सा फ़ोन चाहिए? <span lang="en">Which phone do you want? (optional)</span>
+          </label>
+          <input
+            id={`${uid}-wants`}
+            className={s.input}
+            type="text"
+            value={form.wants}
+            onChange={(e) => set("wants", e.target.value)}
+            maxLength={WANTS_MAX}
+            autoComplete="off"
+            enterKeyHint="next"
+            placeholder="जैसे Vivo Y28, ₹15,000 के आसपास"
+          />
+        </div>
       )}
 
       {who === "shop" && textField("shop_name", "दुकान का नाम", "Shop name", "organization")}
