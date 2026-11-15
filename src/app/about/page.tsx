@@ -45,18 +45,6 @@ const directors: Director[] = [
       "Scales companies through smart leadership and operational excellence",
     ],
   },
-  {
-    name: "Prakash Mali",
-    role: "Director",
-    engraving: "retail",
-    accent: "Credit Speed · Bharat",
-    taglines: [
-      "Director of Credit Kuber Microfinance",
-      "Deep expertise in retail finance and merchant operations",
-      "Architect of Credit Speed's tier-2 / tier-3 expansion strategy",
-      "Built the partner network powering smartphone EMI in Bharat",
-    ],
-  },
 ];
 
 const values = [
@@ -122,7 +110,7 @@ export default function AboutPage() {
 
             <div className="space-y-1">
               {timeline.map((item, i) => (
-                <div key={item.year} className="flex gap-5">
+                <div key={`${item.year}-${item.title}`} className="flex gap-5">
                   <div className="flex flex-col items-center">
                     <div className="w-14 h-14 glass-strong rounded-xl flex items-center justify-center flex-shrink-0">
                       <span className="text-gold-400 text-[10px] font-bold tracking-wider">
@@ -226,7 +214,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
               {directors.map((d) => (
                 <DirectorCard key={d.name} director={d} />
               ))}

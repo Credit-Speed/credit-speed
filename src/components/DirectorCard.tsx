@@ -474,7 +474,7 @@ function GrowthEngraving() {
   );
 }
 
-/** Retail / storefront / rupee / network — Prakash's domain. */
+/** Retail / storefront / rupee / network artwork. */
 function RetailEngraving() {
   return (
     <svg
